@@ -2,9 +2,32 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <title>ShopEase - Online Shopping for Electronics, Fashion & More</title>
+    <meta name="description" content="ShopEase offers a wide range of products including electronics, fashion, home essentials, and more. Shop online with fast delivery and secure payments.">
+    <link rel="icon" type="image/png" href="/ShopEase.png" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="ShopEase - Online Shopping Made Easy" />
+    <meta property="og:description" content="Discover and buy your favorite products online at ShopEase. Fast shipping and secure payments." />
+    <meta property="og:image" content="/ShopEase.png" />
+    <meta property="og:url" content="https://yourdomain.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "ShopEase",
+      "url": "https://yourdomain.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://yourdomain.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
