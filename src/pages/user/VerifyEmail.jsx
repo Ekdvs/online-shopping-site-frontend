@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Axios from "../../utils/Axios";
 import SummaryApi from "../../common/SummaryApi";
 import Loader from "../../components/Loader";
+import ToastProvider from "../../components/ToastProvider";
 
 const VerifyEmail = () => {
   const [searchParams] = useSearchParams();
@@ -56,7 +57,7 @@ const VerifyEmail = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <Toaster position="top-right" reverseOrder={false} />
+      <ToastProvider position="top-right" reverseOrder={false} />
       <div className="bg-white p-6 rounded shadow-md w-full max-w-md text-center">
         {status === "success" ? (
           <p className="text-green-600 font-bold text-lg">
@@ -69,7 +70,7 @@ const VerifyEmail = () => {
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+              className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-300 to-blue-600 text-white font-semibold shadow-md hover:from-blue-600 hover:to-blue-1000 hover:font-bold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
             >
               Resend Verification Email
             </button>

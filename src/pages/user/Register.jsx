@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "../../utils/Axios";
 import SummaryApi from "../../common/SummaryApi";
+import ToastProvider from "../../components/ToastProvider";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -81,7 +82,7 @@ const Register = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <Toaster position="top-right" reverseOrder={false} />
+      <ToastProvider position="top-right" reverseOrder={false} />
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">
           Register
