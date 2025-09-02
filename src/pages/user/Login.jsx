@@ -21,6 +21,7 @@ const Login = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { email, password } = formData; 
     setLoading(true);
 
     try {
@@ -37,6 +38,7 @@ const Login = () => {
     }
 
       if (data.success) {
+        localStorage.setItem("token", data.data.accessToken);
         toast.success(data.message || "Login successful!");
         navigate("/dashboard");
       } else {

@@ -31,7 +31,7 @@ const ForgotPassword = () => {
 
     if(data.success){
       toast.success(data.message||"OTP sent to your email")
-      navigate("/verify-otp");
+      navigate("/verify-forgot-otp",{ state: { email } });
     }
     else{
       toast.error(data.message || "Something went wrong");

@@ -7,6 +7,9 @@ import Loader from "../components/Loader";
 import Login from "../pages/user/Login";
 import VerifyEmail from "../pages/user/VerifyEmail";
 import ForgotPassword from "../pages/user/ForgotPassword";
+import VerifyOtp from "../pages/user/VerifyOtp";
+import ResetPassword from "../pages/user/ResetPassword";
+import UserDashboard from "../pages/user/UserDashboard";
 
 const router = createBrowserRouter([
   {
@@ -37,9 +40,23 @@ const router = createBrowserRouter([
         path:'/forgot-password', 
         element:<ForgotPassword/>
       },
+      {
+        path:'/verify-forgot-otp', 
+        element:<VerifyOtp/>
+      },
+      {
+        path:'/reset-password', 
+        element:<ResetPassword/>
+      },
+      {
+        path: "/dashboard",
+        element: <UserDashboard/>,
+      }
     ]
   }
 ]);
 
 export default router;
+
+
 
