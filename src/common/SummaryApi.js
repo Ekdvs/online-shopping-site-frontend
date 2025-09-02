@@ -28,9 +28,14 @@ const SummaryApi={
     url: "/api/user/reset-password",
     method: "POST",
     },
-    // New
-  getUser: { url: "/api/user/email/me", method: "GET" },
-  updateUser: { url: "/api/user/update-user", method: "PUT" },
+    getUser: { 
+    url: "/api/user/me", 
+    method: "GET" 
+    },
+    updateUser: { 
+        url: "/api/user/update-user", 
+        method: "PUT" 
+    },
   uploadAvatar: { url: "/api/user/upload-avatar", method: "PUT" },
 
   // Address
