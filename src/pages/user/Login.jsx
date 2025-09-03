@@ -39,6 +39,7 @@ const Login = () => {
 
       if (data.success) {
         localStorage.setItem("token", data.data.accessToken);
+        
         toast.success(data.message || "Login successful!");
         navigate("/dashboard");
       } else {
@@ -118,7 +119,7 @@ const Login = () => {
             disabled={loading}
             className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-300 to-blue-600 text-white font-semibold shadow-md hover:from-blue-600 hover:to-blue-1000 hover:font-bold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 

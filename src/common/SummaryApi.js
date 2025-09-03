@@ -1,8 +1,8 @@
 import ForgotPassword from "../pages/user/ForgotPassword";
 import ResetPassword from "../pages/user/ResetPassword";
 
-export const baseURL = "https://online-shoping-site-backend-1.onrender.com";
-//export const baseURL="http://localhost:8080/";
+//export const baseURL = "https://online-shoping-site-backend-1.onrender.com";
+export const baseURL="http://localhost:8080/";
 const SummaryApi={
     register:{
         url: "/api/user/register",
@@ -36,7 +36,14 @@ const SummaryApi={
         url: "/api/user/update-user", 
         method: "PUT" 
     },
-  uploadAvatar: { url: "/api/user/upload-avatar", method: "PUT" },
+     uploadAvatar: { 
+        url: "/api/user/upload-avatar", 
+        method: "PUT" 
+    },
+    logout:{
+        url:"/api/user/logout",
+        method: "POST"
+    },
 
   // Address
   getAddresses: { url: "/api/address/get", method: "GET" },

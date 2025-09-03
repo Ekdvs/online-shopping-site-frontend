@@ -59,59 +59,73 @@ const EditProfile = ({ token, currentUser = {} }) => {
     return <p className="text-center mt-4">Loading profile...</p>;
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="p-6 bg-white shadow-lg rounded-2xl max-w-md mx-auto mt-8 border border-gray-200"
-    >
-      <h2 className="text-xl font-semibold text-center mb-6">Edit Profile</h2>
-
-      <div className="flex flex-col items-center mb-4">
-        <img
-          src={preview || "/default-avatar.png"}
-          alt="avatar"
-          className="w-24 h-24 rounded-full object-cover border mb-2"
-        />
-        <label className="text-sm text-gray-600">Upload Avatar</label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleChange}
-          className="mt-2"
-        />
-      </div>
-
-      <div className="mb-3">
-        <label className="block text-gray-700 font-medium mb-1">Full Name</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Full Name"
-          className="border border-gray-300 p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-      </div>
-
-      <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-1">Mobile</label>
-        <input
-          type="text"
-          name="mobile"
-          value={formData.mobile}
-          onChange={handleChange}
-          placeholder="Mobile"
-          className="border border-gray-300 p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-      </div>
-
-      <button
-        type="submit"
-        disabled={loading}
-        className="bg-blue-500 text-white px-4 py-2 rounded w-full hover:bg-blue-600 transition"
+    <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-gray-200 p-6 transition-transform hover:scale-[1.01]"
       >
-        {loading ? "Saving..." : "Save Changes"}
-      </button>
-    </form>
+        <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">
+          Edit Your Profile
+        </h2>
+
+        {/* Avatar Upload */}
+        <div className="flex flex-col items-center mb-6">
+          <img
+            src={preview || "/default-avatar.png"}
+            alt="avatar"
+            className="w-28 h-28 rounded-full object-cover border-4 border-blue-100 shadow-md mb-3"
+          />
+          <label className="cursor-pointer bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium hover:bg-blue-200 transition">
+            Upload New Avatar
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleChange}
+              className="hidden"
+            />
+          </label>
+        </div>
+
+        {/* Name */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-medium mb-1">
+            Full Name
+          </label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Enter your full name"
+            className="border border-gray-300 p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+          />
+        </div>
+
+        {/* Mobile */}
+        <div className="mb-6">
+          <label className="block text-gray-700 font-medium mb-1">
+            Mobile Number
+          </label>
+          <input
+            type="text"
+            name="mobile"
+            value={formData.mobile}
+            onChange={handleChange}
+            placeholder="Enter your mobile number"
+            className="border border-gray-300 p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+          />
+        </div>
+
+        {/* Save Button */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-300 to-blue-600 text-white font-semibold shadow-md hover:from-blue-600 hover:to-blue-1000 hover:font-bold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+        >
+          {loading ? "Saving..." : "Save Changes"}
+        </button>
+      </form>
+    </div>
   );
 };
 

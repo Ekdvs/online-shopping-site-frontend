@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { FaUser, FaShoppingCart, FaBell, FaCog, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaUser,
+  FaShoppingCart,
+  FaBell,
+  FaCog,
+  FaSignOutAlt,
+} from "react-icons/fa";
 import DashboardContent from "./DashboardContent";
 import EditProfile from "./EditProfile";
 import Axios from "../../utils/Axios";
 import SummaryApi from "../../common/SummaryApi";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
+import toast from "react-hot-toast"; // ✅ use hot-toast instead
 
 const UserDashboard = () => {
   const [user, setUser] = useState(null);
@@ -15,31 +22,34 @@ const UserDashboard = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  // 🔥 Fetch user on mount
+  // 🔥 Fetch user
   useEffect(() => {
     const fetchUser = async () => {
-      try {
-        if (!token) {
-          navigate("/login");
-          return;
-        }
+      if (!token) {
+        navigate("/login");
+        setLoading(false);
+        return;
+      }
 
+      try {
         const { data } = await Axios({
           method: SummaryApi.getUser.method,
           url: SummaryApi.getUser.url,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         });
 
         if (data.success) {
-          setUser(data.user);
+          setUser(data.data);
         } else {
-          setError("Failed to load user data");
+          toast.error(data.message || "Failed to load user data");
+          setError(data.message || "Failed to load user data");
         }
       } catch (err) {
         console.error(err);
-        setError("Error fetching user data");
+        const errorMessage = err.response?.data?.message || "Error fetching user data";
+        toast.error(errorMessage);
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -48,23 +58,38 @@ const UserDashboard = () => {
     fetchUser();
   }, [token, navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+  // 🔥 Logout
+  const handleLogout = async () => {
+    try {
+      await Axios({
+        method: SummaryApi.logout.method,
+        url: SummaryApi.logout.url,
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+      });
+      toast.success("Logged out successfully!");
+    } catch (err) {
+      console.error("Logout error:", err);
+      toast.error("Logout failed!");
+    } finally {
+      localStorage.removeItem("token");
+      navigate("/login");
+    }
   };
 
-  if (loading) return <Loader/>
-  if (error) return <p className="text-center text-red-500 mt-6">{error}</p>;
+  if (loading) return <Loader />;
 
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
-      <aside className="w-90 bg-white shadow-md p-6 hidden md:block">
+      <aside className="w-72 bg-white shadow-md p-6 hidden md:block">
         <h1 className="text-2xl font-bold text-blue-600 mb-8 mt-10">Dashboard</h1>
         <ul className="space-y-4">
           <li
             className={`flex items-center gap-2 cursor-pointer ${
-              activeSection === "dashboard" ? "text-blue-600 font-semibold" : "text-gray-700"
+              activeSection === "dashboard"
+                ? "text-blue-600 font-semibold"
+                : "text-gray-700"
             }`}
             onClick={() => setActiveSection("dashboard")}
           >
@@ -72,7 +97,9 @@ const UserDashboard = () => {
           </li>
           <li
             className={`flex items-center gap-2 cursor-pointer ${
-              activeSection === "profile" ? "text-blue-600 font-semibold" : "text-gray-700"
+              activeSection === "profile"
+                ? "text-blue-600 font-semibold"
+                : "text-gray-700"
             }`}
             onClick={() => setActiveSection("profile")}
           >
@@ -80,7 +107,9 @@ const UserDashboard = () => {
           </li>
           <li
             className={`flex items-center gap-2 cursor-pointer ${
-              activeSection === "orders" ? "text-blue-600 font-semibold" : "text-gray-700"
+              activeSection === "orders"
+                ? "text-blue-600 font-semibold"
+                : "text-gray-700"
             }`}
             onClick={() => setActiveSection("orders")}
           >
@@ -88,7 +117,9 @@ const UserDashboard = () => {
           </li>
           <li
             className={`flex items-center gap-2 cursor-pointer ${
-              activeSection === "notifications" ? "text-blue-600 font-semibold" : "text-gray-700"
+              activeSection === "notifications"
+                ? "text-blue-600 font-semibold"
+                : "text-gray-700"
             }`}
             onClick={() => setActiveSection("notifications")}
           >
@@ -96,7 +127,9 @@ const UserDashboard = () => {
           </li>
           <li
             className={`flex items-center gap-2 cursor-pointer ${
-              activeSection === "settings" ? "text-blue-600 font-semibold" : "text-gray-700"
+              activeSection === "settings"
+                ? "text-blue-600 font-semibold"
+                : "text-gray-700"
             }`}
             onClick={() => setActiveSection("settings")}
           >
@@ -113,8 +146,12 @@ const UserDashboard = () => {
 
       {/* Main Content */}
       <main className="flex-1 p-6">
-        {activeSection === "dashboard" && <DashboardContent user={user} token={token} />}
-        {activeSection === "profile" && <EditProfile token={token} currentUser={user} />}
+        {activeSection === "dashboard" && (
+          <DashboardContent user={user} token={token} />
+        )}
+        {activeSection === "profile" && (
+          <EditProfile token={token} currentUser={user} />
+        )}
         {activeSection === "orders" && <div>Orders Content</div>}
         {activeSection === "notifications" && <div>Notifications Content</div>}
         {activeSection === "settings" && <div>Settings Content</div>}
