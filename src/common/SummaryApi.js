@@ -55,6 +55,77 @@ const SummaryApi={
         method: "GET"
     },
 
+
+    //address
+    createAddress: {
+        url: "/api/address/create",
+        method: "POST"
+    },
+    getAddress: {
+        url: "/api/address/get",
+        method: "GET"
+    },
+    updateAddress: {
+        url: "/api/address/update/:addressId",
+        method: "PUT"
+    },
+    deleteAddress: {
+        url: "/api/address/delete/:addressId",
+        method: "DELETE"
+    },
+
+    //review
+    createReview: { 
+        url: "/api/reviews/create", 
+        method: "POST" 
+    },
+    getReviews: { 
+        url: "/api/reviews/getall/:productId", 
+        method: "GET" 
+    },
+    updateReview: { 
+        url: "/api/reviews/update/:reviewId", 
+        method: "PUT" 
+    },
+    deleteReview: { 
+        url: "/api/reviews/:reviewId", 
+        method: "DELETE" 
+    },
+
+      // ✅ Cart
+  createCartItem: {
+    method: "POST",
+    url: "/api/cart/create",
+  },
+  getCartItems: {
+    method: "GET",
+    url: "/api/cart/list",
+  },
+  updateCartItem: {
+    method: "PUT",
+    url: "/api/cart/update/:id",
+  },
+  deleteCartItem: {
+    method: "DELETE",
+    url: "/api/cart/delete/:id",
+  },
+
+  // ✅ Orders
+  createOrder: {
+    method: "POST",
+    url: "/api/order/create",
+  },
+  getOrders: {
+    method: "GET",
+    url: "/api/order/list",
+  },
+  getOrderById: {
+    method: "GET",
+    url: "/api/order/:id",
+  },
+
+
+
 }
 
 export default SummaryApi;
