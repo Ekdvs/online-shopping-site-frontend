@@ -75,7 +75,7 @@ const DashboardContent = ({ user, loading, error, onLogout }) => {
         <div className="mt-6 flex gap-4">
           <button
             onClick={onLogout}
-            className="bg-red-500 text-white px-6 py-2 rounded-xl shadow hover:bg-red-600 transition flex items-center gap-2"
+            className="w-full py-3 rounded-lg bg-gradient-to-r from-red-300 to-red-600 text-white font-semibold shadow-md hover:from-red-600 hover:to-red-1000 hover:font-bold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
           >
             <LogOut size={18} /> Logout
           </button>

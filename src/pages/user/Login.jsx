@@ -16,6 +16,7 @@ const Login = () => {
   // Handle input changes
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    
   };
 
   // Handle form submission
@@ -41,7 +42,7 @@ const Login = () => {
         localStorage.setItem("token", data.data.accessToken);
         
         toast.success(data.message || "Login successful!");
-        navigate("/dashboard");
+        navigate("/dashboard",);
       } else {
         toast.error(data.message || "Login failed");
       }

@@ -13,6 +13,7 @@ import SummaryApi from "../../common/SummaryApi";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 import toast from "react-hot-toast"; // ✅ use hot-toast instead
+import Settings from "./Settings";
 
 const UserDashboard = () => {
   const [user, setUser] = useState(null);
@@ -146,16 +147,13 @@ const UserDashboard = () => {
 
       {/* Main Content */}
       <main className="flex-1 p-6">
-        {activeSection === "dashboard" && (
-          <DashboardContent user={user} token={token} />
-        )}
-        {activeSection === "profile" && (
-          <EditProfile token={token} currentUser={user} />
-        )}
-        {activeSection === "orders" && <div>Orders Content</div>}
-        {activeSection === "notifications" && <div>Notifications Content</div>}
-        {activeSection === "settings" && <div>Settings Content</div>}
-      </main>
+  {activeSection === "dashboard" && <DashboardContent user={user} token={token} />}
+  {activeSection === "profile" && <EditProfile token={token} currentUser={user} />}
+  {activeSection === "orders" && <div>Orders Content</div>}
+  {activeSection === "notifications" && <div>Notifications Content</div>}
+  {activeSection === "settings" && <Settings token={token} currentUser={user} />}
+</main>
+
     </div>
   );
 };
