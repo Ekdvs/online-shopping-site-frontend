@@ -14,6 +14,7 @@ const AddressForm = ({ existingAddress, onSuccess, autoSave = false }) => {
     country: "",
     mobile: "",
   });
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -53,7 +54,6 @@ const AddressForm = ({ existingAddress, onSuccess, autoSave = false }) => {
     setForm(updatedForm);
 
     if (autoSave) {
-      // save automatically after each change
       saveAddress(updatedForm);
     }
   };

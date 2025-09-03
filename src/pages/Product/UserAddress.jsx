@@ -22,10 +22,8 @@ const UserAddress = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // If API returns an array of addresses, pick the latest one
       if (Array.isArray(data.data) && data.data.length > 0) {
-        const latestAddress = data.data[data.data.length - 1];
-        setAddress(latestAddress);
+        setAddress(data.data[data.data.length - 1]);
       } else {
         setAddress(data.data || null);
       }
@@ -60,17 +58,15 @@ const UserAddress = () => {
             <p>{address.country}</p>
             <p>Mobile: {address.mobile}</p>
           </div>
-          {/* Inline-edit form for existing address */}
           <AddressForm
             existingAddress={address}
             onSuccess={fetchAddress}
-            autoSave={true} // enable auto-save on change
+            autoSave={true}
           />
         </>
       ) : (
         <>
           <p className="text-sm text-gray-500 mt-4">No saved address</p>
-          {/* Add new address */}
           <AddressForm onSuccess={fetchAddress} autoSave={true} />
         </>
       )}

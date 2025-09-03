@@ -18,7 +18,7 @@ const AddToCartButton = ({ productId, quantity = 1 }) => {
         data: { productId, quantity },
       });
       if (data.success) toast.success(data.message || "Added to cart");
-      else toast.error(data.message || "Failed to add to cart");
+      else toast.error(data.message|| "Failed to add to cart");
     } catch (error) {
       toast.error(error.response?.data?.message || "Server error");
     } finally {

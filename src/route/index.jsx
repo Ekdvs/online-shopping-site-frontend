@@ -11,6 +11,8 @@ import VerifyOtp from "../pages/user/VerifyOtp";
 import ResetPassword from "../pages/user/ResetPassword";
 import UserDashboard from "../pages/user/UserDashboard";
 import ProductDetails from "../pages/Product/ProductDetails";
+import Checkout from "../pages/Checkout";
+import Payment from "../pages/Payment";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +58,18 @@ const router = createBrowserRouter([
       {
         path: "/:id",
         element: <ProductDetails/>,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout/>
+      },
+      {
+        path: "/payment",
+        element: <Payment/>
+      },
+      {
+        path: "/checkout",
+        element: <Checkout/>
       }
     ]
   }
