@@ -10,6 +10,7 @@ import ForgotPassword from "../pages/user/ForgotPassword";
 import VerifyOtp from "../pages/user/VerifyOtp";
 import ResetPassword from "../pages/user/ResetPassword";
 import UserDashboard from "../pages/user/UserDashboard";
+import ProductDetails from "../pages/Product/ProductDetails";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <UserDashboard/>,
+      },
+      {
+        path: "/:id",
+        element: <ProductDetails/>,
       }
     ]
   }

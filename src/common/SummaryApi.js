@@ -13,24 +13,24 @@ const SummaryApi={
         method: "POST",
     },
     verifyEmail: {
-    url: "/api/user/verify-email",
-    method: "POST",
+        url: "/api/user/verify-email",
+        method: "POST",
     },
     ForgotPassword: {
-    url: "/api/user/forgot-password",
-    method: "POST",
+        url: "/api/user/forgot-password",
+        method: "POST",
     },
     verifyForgotOtp: {
-    url: "/api/user/verify-forgot-otp",
-    method: "POST",
+        url: "/api/user/verify-forgot-otp",
+        method: "POST",
     },
     ResetPassword: {
-    url: "/api/user/reset-password",
-    method: "POST",
+        url: "/api/user/reset-password",
+        method: "POST",
     },
     getUser: { 
-    url: "/api/user/me", 
-    method: "GET" 
+        url: "/api/user/me", 
+        method: "GET" 
     },
     updateUser: { 
         url: "/api/user/update-user", 
@@ -45,20 +45,16 @@ const SummaryApi={
         method: "POST"
     },
 
-  // Address
-  getAddresses: { url: "/api/address/get", method: "GET" },
-  createAddress: { url: "/api/address/create", method: "POST" },
-  updateAddress: (id) => ({ url: `/api/address/update/${id}`, method: "PUT" }),
-  deleteAddress: (id) => ({ url: `/api/address/delete/${id}`, method: "PUT" }),
+    //products
+    getProducts:{
+        url:"/api/products/getall",
+        method: "GET"
+    },
+    getProduct: {
+        url: "/api/products/getbyid/:id",
+        method: "GET"
+    },
 
-  // Cart
-  getCart: { url: "/api/cart/getcart", method: "GET" },
-  updateCart: (id) => ({ url: `/api/cart/updatecart/${id}`, method: "PUT" }),
-  deleteCart: (id) => ({ url: `/api/cart/deletecart/${id}`, method: "DELETE" }),
-
-  // Orders
-  getOrders: { url: "/api/order/getuser", method: "GET" },
-  getOrderById: (id) => ({ url: `/api/order/${id}`, method: "GET" }),
 }
 
 export default SummaryApi;
