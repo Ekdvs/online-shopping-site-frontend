@@ -70,21 +70,28 @@ const EditProfile = ({ token, currentUser = {} }) => {
 
         {/* Avatar Upload */}
         <div className="flex flex-col items-center mb-6">
-          <img
-            src={preview || "/default-avatar.png"}
-            alt="avatar"
-            className="w-28 h-28 rounded-full object-cover border-4 border-blue-100 shadow-md mb-3"
+        {/* Avatar Preview */}
+        <img
+          src={preview || "/default-avatar.png"}
+          alt="avatar preview"
+          className="w-28 h-28 rounded-full object-cover border-4 border-blue-200 shadow-md mb-3 transition-transform duration-200 hover:scale-105"
+        />
+
+        {/* Upload Button */}
+        <label className="cursor-pointer bg-blue-100 text-blue-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-200 focus:ring-2 focus:ring-blue-300 focus:outline-none transition">
+          Upload New Avatar
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleChange}
+            className="hidden"
           />
-          <label className="cursor-pointer bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium hover:bg-blue-200 transition">
-            Upload New Avatar
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleChange}
-              className="hidden"
-            />
-          </label>
-        </div>
+        </label>
+
+        {/* Helper text */}
+        <p className="text-xs text-gray-400 mt-2">PNG, JPG up to 2MB</p>
+      </div>
+
 
         {/* Name */}
         <div className="mb-4">

@@ -18,6 +18,9 @@ import DashboardContent from "../user/DashboardContent";
 import EditProfile from "../user/EditProfile";
 import Settings from "../user/Settings";
 import AdminCategories from "./AdminCategories";
+import AdminSubCategories from "./AdminSubCategories";
+import AdminProducts from "./AdminProducts";
+
 
 
 const AdminDashboard = () => {
@@ -27,6 +30,10 @@ const AdminDashboard = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+
+  if(!token){
+    navigate("/login");
+  }
 
   // 🔥 Fetch user
   useEffect(() => {
@@ -131,6 +138,26 @@ const AdminDashboard = () => {
             >
             <FaShoppingCart /> Categories
         </li>
+        <li
+            className={`flex items-center gap-2 cursor-pointer ${
+              activeSection === "subcategories"
+                ? "text-blue-600 font-semibold"
+                : "text-gray-700"
+            }`}
+            onClick={() => setActiveSection("subcategories")}
+          >
+            <FaShoppingCart /> Subcategories
+          </li>
+          <li
+            className={`flex items-center gap-2 cursor-pointer ${
+              activeSection === "products" ? "text-blue-600 font-semibold" : "text-gray-700"
+            }`}
+            onClick={() => setActiveSection("products")}
+          >
+            <FaShoppingCart /> Products
+          </li>
+
+
           <li
             className={`flex items-center gap-2 cursor-pointer ${
               activeSection === "notifications"
@@ -168,6 +195,10 @@ const AdminDashboard = () => {
   {activeSection === "notifications" && <div>Notifications Content</div>}
   {activeSection === "settings" && <Settings token={token} currentUser={user} />}
   {activeSection === "categories" && <AdminCategories />} 
+  {activeSection === "subcategories" && <AdminSubCategories/>}
+  {activeSection === "products" && <AdminProducts />}
+
+
 </main>
 
     </div>
