@@ -17,6 +17,7 @@ const Register = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false); // ✅ FIX added
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -56,6 +57,7 @@ const Register = () => {
     }
 
     try {
+      setLoading(true); // ✅ show loading
       const { data } = await Axios({
         method: SummaryApi.register.method,
         url: SummaryApi.register.url,
@@ -71,12 +73,14 @@ const Register = () => {
         );
         setFormData({ name: "", email: "", password: "", confirmPassword: "" });
         setTimeout(() => {
-            navigate("/login");
+          navigate("/login");
         }, 1000);
       }
     } catch (err) {
-      toast.error(err.response.data.message);
+      toast.error(err.response?.data?.message || "Something went wrong");
       console.error(err);
+    } finally {
+      setLoading(false); // ✅ hide loading
     }
   };
 
@@ -148,7 +152,9 @@ const Register = () => {
             />
             <button
               type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              onClick={() =>
+                setShowConfirmPassword(!showConfirmPassword)
+              }
               className="text-gray-400 hover:text-gray-700"
             >
               {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
@@ -157,7 +163,8 @@ const Register = () => {
 
           <button
             type="submit"
-            className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-300 to-blue-600 text-white font-semibold shadow-md hover:from-blue-600 hover:to-blue-1000 hover:font-bold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+            disabled={loading} // ✅ disable while loading
+            className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-300 to-blue-600 text-white font-semibold shadow-md hover:from-blue-600 hover:to-blue-1000 hover:font-bold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? "Registering..." : "Register"}
           </button>

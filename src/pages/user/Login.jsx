@@ -41,8 +41,15 @@ const Login = () => {
       if (data.success) {
         localStorage.setItem("token", data.data.accessToken);
         
+        
         toast.success(data.message || "Login successful!");
-        navigate("/dashboard",);
+        if (data.data.updateUser.role === "ADMIN") {
+          navigate("/admin");
+          toast.success(data.message || "Login successful!");
+        } else {
+          navigate("/dashboard");
+          toast.success(data.message || "Login successful!");
+        }
       } else {
         toast.error(data.message || "Login failed");
       }
@@ -54,13 +61,7 @@ const Login = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <Loader />
-      </div>
-    );
-  }
+  
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">

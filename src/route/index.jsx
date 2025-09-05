@@ -13,6 +13,7 @@ import UserDashboard from "../pages/user/UserDashboard";
 import ProductDetails from "../pages/Product/ProductDetails";
 import Checkout from "../pages/Checkout";
 import Payment from "../pages/Payment";
+import AdminDashboard from "../pages/admin/AdminDashboard";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,7 @@ const router = createBrowserRouter([
         path: "/dashboard",
         element: <UserDashboard/>,
       },
+      
       {
         path: "/:id",
         element: <ProductDetails/>,
@@ -70,7 +72,12 @@ const router = createBrowserRouter([
       {
         path: "/checkout",
         element: <Checkout/>
+      },
+      {
+        path: "/admin",
+        element: <AdminDashboard/>
       }
+
     ]
   }
 ]);

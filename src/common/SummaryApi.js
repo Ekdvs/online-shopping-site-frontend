@@ -1,7 +1,7 @@
 import ForgotPassword from "../pages/user/ForgotPassword";
 import ResetPassword from "../pages/user/ResetPassword";
 
-export const baseURL = "https://online-shoping-site-backend-1.onrender.com";
+export const baseURL = "https://online-shoping-site-backend-1.onrender.com/";
 //export const baseURL="http://localhost:8080/";
 const SummaryApi={
     register:{
@@ -122,6 +122,27 @@ const SummaryApi={
   getOrderById: {
     method: "GET",
     url: "/api/order/:id",
+  },
+
+  createCategory: { 
+    method: "POST", 
+    url: "/api/category/create" 
+  },
+  getAllCategories: { 
+    method: "GET", 
+    url: "/api/category/getall" 
+  },
+  updateCategory: { 
+    method: "PUT", 
+    url: "/api/category/update" 
+  },
+  deleteCategory: { 
+    method: "DELETE", 
+    url: "/api/category/delete" 
+  },
+  searchCategory: { 
+    method: "POST", 
+    url: "/api/category/search" 
   },
 
 
