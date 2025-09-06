@@ -18,6 +18,7 @@ const AdminCategories = () => {
   // Fetch all categories
   const fetchCategories = async () => {
     try {
+      setLoading(true);
       const { data } = await Axios({
         method: SummaryApi.getAllCategories.method,
         url: SummaryApi.getAllCategories.url,
@@ -32,6 +33,9 @@ const AdminCategories = () => {
       }
     } catch (err) {
       toast.error("Failed to load categories");
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -125,6 +129,7 @@ const AdminCategories = () => {
       return;
     }
     try {
+      setLoading(true);
       const { data } = await Axios({
         method: SummaryApi.searchCategory.method,
         url: SummaryApi.searchCategory.url,
@@ -142,6 +147,9 @@ const AdminCategories = () => {
     } catch (error) {
       console.error(error);
       toast.error("Error searching category");
+    }
+    finally {
+      setLoading(false);
     }
   };
 
