@@ -65,7 +65,7 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-blue-100">
-      < ToastProvider position="top-right" reverseOrder={false} />
+      
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">
           Login

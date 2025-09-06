@@ -3,6 +3,7 @@ import Axios from "../../utils/Axios";
 import SummaryApi from "../../common/SummaryApi";
 import toast from "react-hot-toast";
 import ToastProvider from "../../components/ToastProvider";
+import Loader from "../../components/Loader";
 
 const AdminCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -161,7 +162,7 @@ const AdminCategories = () => {
   };
 
   if (loading) {
-    return <p className="text-center mt-4">Loading...</p>;
+    return <Loader />;
   }
 
   return (
