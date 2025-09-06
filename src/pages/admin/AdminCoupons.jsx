@@ -1,4 +1,3 @@
-// src/pages/admin/AdminCoupons.jsx
 import React, { useState, useEffect } from "react";
 import Axios from "../../utils/Axios";
 import SummaryApi from "../../common/SummaryApi";
@@ -18,7 +17,7 @@ const AdminCoupons = () => {
 
   const token = localStorage.getItem("token");
 
-  // 🔥 Fetch all coupons
+  //Fetch all coupons
   const fetchCoupons = async () => {
     try {
       const { data } = await Axios({
@@ -40,12 +39,24 @@ const AdminCoupons = () => {
     fetchCoupons();
   }, []);
 
-  // 🔥 Handle form input change
+  //Handle form input change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // 🔥 Add or Update coupon
+  //Reset form
+  const resetForm = () => {
+    setForm({
+      code: "",
+      discountPercent: "",
+      expiryDate: "",
+      description: "",
+      usageLimit: "",
+    });
+    setEditingCoupon(null);
+  };
+
+  //Add or Update coupon
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -63,7 +74,7 @@ const AdminCoupons = () => {
 
         if (data.success) {
           toast.success("Coupon updated successfully!");
-          setEditingCoupon(null);
+          resetForm();
           fetchCoupons();
         }
       } else {
@@ -78,18 +89,10 @@ const AdminCoupons = () => {
 
         if (data.success) {
           toast.success("Coupon created successfully!");
+          resetForm();
           fetchCoupons();
         }
       }
-
-      // Reset form
-      setForm({
-        code: "",
-        discountPercent: "",
-        expiryDate: "",
-        description: "",
-        usageLimit: "",
-      });
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to save coupon");
     } finally {
@@ -97,7 +100,7 @@ const AdminCoupons = () => {
     }
   };
 
-  // 🔥 Delete coupon
+  //Delete coupon
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this coupon?")) return;
 
@@ -118,7 +121,7 @@ const AdminCoupons = () => {
     }
   };
 
-  // 🔥 Edit coupon
+  //Edit coupon
   const handleEdit = (coupon) => {
     setEditingCoupon(coupon);
     setForm({
@@ -137,7 +140,10 @@ const AdminCoupons = () => {
       </h2>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"
+      >
         <input
           type="text"
           name="code"
@@ -179,13 +185,31 @@ const AdminCoupons = () => {
           placeholder="Description"
           className="border p-2 rounded col-span-2"
         />
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition col-span-2"
-        >
-          {loading ? "Saving..." : editingCoupon ? "Update Coupon" : "Create Coupon"}
-        </button>
+
+        {/* Buttons */}
+        <div className="col-span-2 flex gap-4">
+          <button
+            type="submit"
+            disabled={loading}
+            className="flex-1 py-3 rounded-lg bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold shadow-md hover:from-green-600 hover:to-green-800 active:scale-95 transition-all duration-200"
+          >
+            {loading
+              ? "Saving..."
+              : editingCoupon
+              ? "Update Coupon"
+              : "Create Coupon"}
+          </button>
+
+          {editingCoupon && (
+            <button
+              type="button"
+              onClick={resetForm}
+              className="flex-1 py-3 rounded-lg bg-gradient-to-r from-gray-400 to-gray-600 text-white font-semibold shadow-md hover:from-gray-600 hover:to-gray-800 active:scale-95 transition-all duration-200"
+            >
+              Cancel
+            </button>
+          )}
+        </div>
       </form>
 
       {/* Coupon List */}
@@ -214,19 +238,21 @@ const AdminCoupons = () => {
                     {new Date(coupon.expiryDate).toLocaleDateString()}
                   </td>
                   <td className="border p-2">
-                    {coupon.usageLimit === 0 ? "Unlimited" : coupon.usageLimit}
+                    {coupon.usageLimit === 0
+                      ? "Unlimited"
+                      : coupon.usageLimit}
                   </td>
                   <td className="border p-2">{coupon.usedCount}</td>
                   <td className="border p-2 flex gap-2">
                     <button
                       onClick={() => handleEdit(coupon)}
-                      className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                      className="px-3 py-1 rounded-lg bg-yellow-500 text-white hover:bg-yellow-600"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(coupon._id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                      className="px-3 py-1 rounded-lg bg-red-500 text-white hover:bg-red-600"
                     >
                       Delete
                     </button>

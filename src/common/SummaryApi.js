@@ -165,6 +165,11 @@ const SummaryApi={
     url: "/api/subCategory/search",
     method: "GET"
   },
+  getSubCategoryById: {
+  url: "/api/subcategory/get", 
+  method: "GET",
+  
+},
 
     createProduct: {
     url: "/api/products/create",
@@ -201,6 +206,15 @@ const SummaryApi={
   deleteCoupon: { 
     method: "DELETE",
     url: "/api/coupon/delete" 
+  },
+
+  getAllReviews: { 
+    method: "GET", 
+    url: "/api/reviews/admin/getall" 
+  },
+  deleteReview: { 
+    method: "DELETE", 
+    url: "/api/reviews" 
   },
 
 

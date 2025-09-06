@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import Home from "../pages/public/Home";
+
 import App from "../App";
 import Register from "../pages/user/Register";
 import Loader from "../components/Loader";
@@ -14,6 +14,9 @@ import ProductDetails from "../pages/Product/ProductDetails";
 import Checkout from "../pages/Checkout";
 import Payment from "../pages/Payment";
 import AdminDashboard from "../pages/admin/AdminDashboard";
+import Home from "../pages/Home/Home";
+import CategoryProducts from "../pages/CategoryProducts";
+import SubcategoryProducts from "../pages/SubcategoryProducts";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +25,7 @@ const router = createBrowserRouter([
     children: [
       {
         path:'/', 
-        element: <Home />
+        element: <Home/>
       },
       {
         path:'/register', 
@@ -58,7 +61,7 @@ const router = createBrowserRouter([
       },
       
       {
-        path: "/:id",
+        path: "/product/:id",
         element: <ProductDetails/>,
       },
       {
@@ -76,9 +79,16 @@ const router = createBrowserRouter([
       {
         path: "/admin",
         element: <AdminDashboard/>
-      }
-
-    ]
+      },
+        {
+          path: "/category/:name",
+          element: <CategoryProducts/>
+        },
+        {
+          path: "/subcategory/:id",
+          element: <SubcategoryProducts/>
+        }
+      ]
   }
 ]);
 

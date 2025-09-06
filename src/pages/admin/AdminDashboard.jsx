@@ -22,6 +22,7 @@ import AdminCategories from "./AdminCategories";
 import AdminSubCategories from "./AdminSubCategories";
 import AdminProducts from "./AdminProducts";
 import AdminCoupons from "./AdminCoupons";
+import AdminReviews from "./AdminReviews";
 
 
 
@@ -167,7 +168,16 @@ const AdminDashboard = () => {
             <FaTag /> Coupons
           </li>
 
-
+          <li
+            className={`flex items-center gap-2 cursor-pointer ${
+              activeSection === "reviews"
+                ? "text-blue-600 font-semibold"
+                : "text-gray-700"
+            }`}
+            onClick={() => setActiveSection("reviews")}
+          >
+            <FaBell /> Reviews
+          </li>
           <li
             className={`flex items-center gap-2 cursor-pointer ${
               activeSection === "notifications"
@@ -208,6 +218,7 @@ const AdminDashboard = () => {
   {activeSection === "subcategories" && <AdminSubCategories/>}
   {activeSection === "products" && <AdminProducts />}
   {activeSection === "coupons" && <AdminCoupons />}
+  {activeSection === "reviews" && <AdminReviews />}
 
 </main>
 

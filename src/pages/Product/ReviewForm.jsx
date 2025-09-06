@@ -9,9 +9,11 @@ const ReviewForm = ({ productId, onSuccess }) => {
   const [comment, setComment] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  const token = localStorage.getItem("token"); // ✅ FIX
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!localStorage.getItem("token")) return toast.error("You must be logged in to post a review");
+    if (!token) return toast.error("You must be logged in to post a review");
     if (!rating) return toast.error("Please select a rating");
 
     try {
@@ -20,13 +22,13 @@ const ReviewForm = ({ productId, onSuccess }) => {
         method: SummaryApi.createReview.method,
         url: SummaryApi.createReview.url,
         data: { productId, rating, comment },
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` }, // ✅ now works
       });
 
       toast.success(data?.message || "Review submitted!");
       setRating(0);
       setComment("");
-      onSuccess?.();
+      onSuccess?.(); // refresh reviews
     } catch (error) {
       console.error("Review submit error:", error?.response || error);
       toast.error(error?.response?.data?.message || "Failed to submit review");
