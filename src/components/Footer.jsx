@@ -3,7 +3,7 @@ import { Facebook, Instagram, Twitter, Linkedin, Mail } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-[#1E3A8A] via-[#00B5D8] to-[#8B5CF6] text-white">
+    <footer className="bg-gradient-to-r from-[#1E3A8A] via-[#00B5D8] to-[#8B5CF6] text-white w-full">
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-10">
         {/* Company Info */}
         <div>

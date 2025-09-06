@@ -5,6 +5,7 @@ import {
   FaBell,
   FaCog,
   FaSignOutAlt,
+  FaTag,
 } from "react-icons/fa";
 
 
@@ -20,6 +21,7 @@ import Settings from "../user/Settings";
 import AdminCategories from "./AdminCategories";
 import AdminSubCategories from "./AdminSubCategories";
 import AdminProducts from "./AdminProducts";
+import AdminCoupons from "./AdminCoupons";
 
 
 
@@ -156,6 +158,14 @@ const AdminDashboard = () => {
           >
             <FaShoppingCart /> Products
           </li>
+          <li
+            className={`flex items-center gap-2 cursor-pointer ${
+              activeSection === "coupons" ? "text-blue-600 font-semibold" : "text-gray-700"
+            }`}
+            onClick={() => setActiveSection("coupons")}
+          >
+            <FaTag /> Coupons
+          </li>
 
 
           <li
@@ -197,7 +207,7 @@ const AdminDashboard = () => {
   {activeSection === "categories" && <AdminCategories />} 
   {activeSection === "subcategories" && <AdminSubCategories/>}
   {activeSection === "products" && <AdminProducts />}
-
+  {activeSection === "coupons" && <AdminCoupons />}
 
 </main>
 

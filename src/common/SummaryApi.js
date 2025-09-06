@@ -166,6 +166,43 @@ const SummaryApi={
     method: "GET"
   },
 
+    createProduct: {
+    url: "/api/products/create",
+    method: "POST",
+  },
+  getProducts: {
+    url: "/api/products/getAll",
+    method: "GET",
+  },
+  updateProduct: {
+    url: "/api/products/update",
+    method: "PUT",
+  },
+  deleteProduct: {
+    url: "/api/products/delete",
+    method: "DELETE",
+  },
+  searchProduct: {
+    url: "/api/products/search",
+    method: "GET",
+  },
+
+  createCoupon: { 
+    method: "POST", 
+    url: "/api/coupon/create" 
+  },
+  getCoupons: { 
+    method: "GET", 
+    url: "/api/coupon/getall" 
+  },
+  updateCoupon: { 
+    method: "PUT", url: "/api/coupon/update" 
+  },
+  deleteCoupon: { 
+    method: "DELETE",
+    url: "/api/coupon/delete" 
+  },
+
 
 
 }
