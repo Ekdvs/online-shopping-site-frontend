@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://online-shopping-site-frontend.vercel.app/sitemap.xml

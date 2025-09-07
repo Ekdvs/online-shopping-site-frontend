@@ -7,6 +7,7 @@ import Loader from "../../components/Loader";
 import HeroSection from "./HeroSection";
 import CategoriesSection from "./CategoriesSection";
 import ProductsGrid from "./ProductsGrid";
+import { Title } from "react-head";
 
 
 
@@ -41,11 +42,15 @@ const Home = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <HeroSection />
-      <CategoriesSection />
-      <ProductsGrid products={products} />
-    </div>
+    <>
+    <Title>Home | ShopEase</Title>
+    <meta name="google-site-verification" content="suThDJgUAW40HQNLZ0vdnEgVZcu-zk9p3pvj45ExH28" />
+      <div className="p-6 max-w-7xl mx-auto">
+        <HeroSection />
+        <CategoriesSection />
+        <ProductsGrid products={products} />
+      </div>
+    </>
   );
 };
 
