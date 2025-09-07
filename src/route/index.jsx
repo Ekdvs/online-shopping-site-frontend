@@ -19,6 +19,12 @@ import CategoryProducts from "../pages/CategoryProducts";
 import SubcategoryProducts from "../pages/SubcategoryProducts";
 import Cart from "../pages/user/Cart";
 import PrivateRoute from "../components/PrivateRoute";
+import About from "../pages/About";
+import Contact from "../pages/Contact";
+import FAQ from "../pages/FAQ";
+import TermsConditions from "../pages/TermsConditions";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
+import ShippingReturns from "../pages/ShippingReturns";
 
 const router = createBrowserRouter([
   {
@@ -26,12 +32,19 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: "/", element: <Home /> },
+      { path: "/home", element: <Home /> },
       { path: "/register", element: <Register /> },
       { path: "/login", element: <Login /> },
       { path: "/verify-email", element: <VerifyEmail /> },
       { path: "/forgot-password", element: <ForgotPassword /> },
       { path: "/verify-forgot-otp", element: <VerifyOtp /> },
       { path: "/reset-password", element: <ResetPassword /> },
+      { path: "/about", element: <About /> },
+      { path: "/contact", element: <Contact /> },
+      { path: "/faq", element: <FAQ /> },
+      { path: "/terms&conditions", element: <TermsConditions /> },
+      { path: "/privacypolicy", element: <PrivacyPolicy /> },
+      { path: "/shipping&returns", element: <ShippingReturns /> },
 
       // Protected Routes
       {
