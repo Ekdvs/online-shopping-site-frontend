@@ -16,6 +16,7 @@ import toast from "react-hot-toast"; // ✅ use hot-toast instead
 import Settings from "./Settings";
 import Cart from "./Cart";
 import { ShoppingCartIcon } from "lucide-react";
+import UserOrders from "./UserOrders";
 
 const UserDashboard = () => {
   const [user, setUser] = useState(null);
@@ -161,7 +162,7 @@ const UserDashboard = () => {
       <main className="flex-1 p-6">
   {activeSection === "dashboard" && <DashboardContent user={user} token={token} />}
   {activeSection === "profile" && <EditProfile token={token} currentUser={user} />}
-  {activeSection === "orders" && <div>Orders Content</div>}
+  {activeSection === "orders" && <div><UserOrders/></div>}
   {activeSection === "notifications" && <div>Notifications Content</div>}
   {activeSection === "settings" && <Settings token={token} currentUser={user} />}
   {activeSection === "cart" && <Cart token={token} currentUser={user} />}

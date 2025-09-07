@@ -126,6 +126,10 @@ const SummaryApi={
       method: "GET",
       url: "/api/order/:id",
     },
+    getUserOrders: {
+      method: "GET",
+      url: "/api/order/getuser",
+    },
 
     createCategory: { 
       method: "POST", 
