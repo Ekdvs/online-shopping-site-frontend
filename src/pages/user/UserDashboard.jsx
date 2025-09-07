@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 import toast from "react-hot-toast"; // ✅ use hot-toast instead
 import Settings from "./Settings";
+import Cart from "./Cart";
+import { ShoppingCartIcon } from "lucide-react";
 
 const UserDashboard = () => {
   const [user, setUser] = useState(null);
@@ -108,6 +110,16 @@ const UserDashboard = () => {
           </li>
           <li
             className={`flex items-center gap-2 cursor-pointer ${
+              activeSection === "cart"
+                ? "text-blue-600 font-semibold"
+                : "text-gray-700"
+            }`}
+            onClick={() => setActiveSection("cart")}
+          >
+            < ShoppingCartIcon /> Cart Item
+          </li>
+          <li
+            className={`flex items-center gap-2 cursor-pointer ${
               activeSection === "orders"
                 ? "text-blue-600 font-semibold"
                 : "text-gray-700"
@@ -152,6 +164,7 @@ const UserDashboard = () => {
   {activeSection === "orders" && <div>Orders Content</div>}
   {activeSection === "notifications" && <div>Notifications Content</div>}
   {activeSection === "settings" && <Settings token={token} currentUser={user} />}
+  {activeSection === "cart" && <Cart token={token} currentUser={user} />}
 </main>
 
     </div>

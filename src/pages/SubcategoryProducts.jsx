@@ -15,10 +15,10 @@ const SubcategoryProducts = () => {
   useEffect(() => {
     const fetchSubCategoryData = async () => {
       try {
-        
+        // 1️⃣ Get subcategory details
         const { data } = await Axios({
           method: SummaryApi.getSubCategoryById.method,
-          url: `${SummaryApi.getSubCategoryById.url}/${id}`, // append ID
+          url: `${SummaryApi.getSubCategoryById.url}/${id}`,
         });
 
         if (!data.success) {
@@ -29,11 +29,11 @@ const SubcategoryProducts = () => {
 
         setSubCategory(data.data);
 
- 
+        // 2️⃣ Get products under this subcategory
         const { data: prodRes } = await Axios({
           method: SummaryApi.getProducts.method,
           url: SummaryApi.getProducts.url,
-          params: { subCategoryId: data.data._id }, // pass subCategoryId as query
+          params: { subCategoryId: data.data._id },
         });
 
         if (!prodRes.success) {
@@ -43,6 +43,7 @@ const SubcategoryProducts = () => {
           setProducts(prodRes.data || []);
         }
       } catch (err) {
+        console.error(err);
         toast.error("Failed to fetch subcategory products");
       } finally {
         setLoading(false);
@@ -54,8 +55,11 @@ const SubcategoryProducts = () => {
 
   if (loading) return <Loader />;
 
-  if (!subCategory) return <p>Subcategory not found</p>;
-  if (products.length === 0) return <p>No products in {subCategory.name}</p>;
+  if (!subCategory)
+    return <p className="text-center py-10">❌ Subcategory not found</p>;
+
+  if (products.length === 0)
+    return <p className="text-center py-10">No products in {subCategory.name}</p>;
 
   return (
     <div className="p-6">
@@ -73,7 +77,6 @@ const SubcategoryProducts = () => {
               className="w-full h-40 object-cover rounded mb-2"
             />
             <h3 className="font-semibold text-sm truncate">{prod.name}</h3>
-            <p className="text-gray-500 text-xs">{prod.categoryId?.name}</p>
             <p className="text-blue-600 font-bold mt-1">${prod.price}</p>
           </div>
         ))}

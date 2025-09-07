@@ -19,12 +19,14 @@ const AdminSubCategories = () => {
   // Fetch all categories
   const fetchCategories = async () => {
     try {
+      setLoading(true);
       const { data } = await Axios(SummaryApi.getAllCategories);
       if (data.success) setCategories(data.data);
     } catch (err) {
       console.error(err);
       toast.error("Failed to fetch categories");
     }
+    finally { setLoading(false); }
   };
 
   // Fetch all subcategories
@@ -117,6 +119,7 @@ const AdminSubCategories = () => {
       return;
     }
     try {
+      setLoading(true);
       console.log("Searching subcategory:", search);
       const { data } = await Axios.get(
         `${SummaryApi.searchSubCategory.url}/${search}`
@@ -131,6 +134,7 @@ const AdminSubCategories = () => {
       console.error("Error in handleSearch:", err);
       toast.error("Error searching subcategory");
     }
+    finally { setLoading(false); }
   };
 
   // Reset form

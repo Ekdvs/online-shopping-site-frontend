@@ -1,11 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { ShoppingCart, Menu, X, User, LogIn, UserPlus } from "lucide-react";
+import {
+  ShoppingCart,
+  Menu,
+  X,
+  User,
+  LogIn,
+  UserPlus,
+} from "lucide-react";
 import { NavLink } from "react-router-dom";
+import Axios from "../utils/Axios";
+import SummaryApi from "../common/SummaryApi";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
 
+  // 🛒 Fetch cart count
+  const fetchCartCount = async () => {
+    try {
+      const { data } = await Axios({
+        method: SummaryApi.getCart.method,
+        url: SummaryApi.getCart.url,
+      });
+      if (data.success) {
+        setCartCount(data.data.length); 
+      }
+    } catch (error) {
+      console.error("Failed to fetch cart count:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCartCount();
+  }, []);
+
+  // Scroll effect
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
@@ -57,12 +87,17 @@ const Navbar = () => {
                 {item}
               </NavLink>
             ))}
+
+            {/* 🛒 Cart Icon with dynamic count */}
             <NavLink to="/cart" className="relative group">
               <ShoppingCart className="w-6 h-6 text-white group-hover:text-[#00B5D8] transition duration-300" />
-              <span className="absolute -top-2 -right-2 bg-[#FB923C] text-black text-xs rounded-full px-1 font-bold">
-                3
-              </span>
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-[#FB923C] text-black text-xs rounded-full px-1 font-bold">
+                  {cartCount}
+                </span>
+              )}
             </NavLink>
+
             <NavLink to="/account" className="group">
               <User className="w-6 h-6 text-white group-hover:text-[#00B5D8] transition duration-300" />
             </NavLink>
@@ -89,7 +124,9 @@ const Navbar = () => {
             <button
               onClick={() => setIsOpen(!isOpen)}
               className={`transition duration-300 ${
-                scrolled ? "text-gray-800 hover:text-[#00B5D8]" : "text-white hover:text-[#00B5D8]"
+                scrolled
+                  ? "text-gray-800 hover:text-[#00B5D8]"
+                  : "text-white hover:text-[#00B5D8]"
               }`}
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -125,12 +162,20 @@ const Navbar = () => {
               {item}
             </NavLink>
           ))}
+
+          {/* Cart for mobile */}
           <NavLink
             to="/cart"
             className="flex items-center text-gray-700 hover:text-[#00B5D8] transition duration-300"
           >
             <ShoppingCart className="w-5 h-5 mr-2" /> Cart
+            {cartCount > 0 && (
+              <span className="ml-2 bg-[#FB923C] text-black text-xs rounded-full px-2 font-bold">
+                {cartCount}
+              </span>
+            )}
           </NavLink>
+
           <NavLink
             to="/account"
             className="flex items-center text-gray-700 hover:text-[#00B5D8] transition duration-300"

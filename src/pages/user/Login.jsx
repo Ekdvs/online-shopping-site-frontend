@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import toast  from "react-hot-toast";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import Axios from "../../utils/Axios";
 import SummaryApi from "../../common/SummaryApi";
 import Loader from "../../components/Loader";
-import ToastProvider from "../../components/ToastProvider";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirectPath = location.state?.from?.pathname || "/dashboard";
+
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -16,15 +18,19 @@ const Login = () => {
   // Handle input changes
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = formData; 
-    setLoading(true);
+    const { email, password } = formData;
 
+    if (!email || !password) {
+      toast.error("All fields are required");
+      return;
+    }
+
+    setLoading(true);
     try {
       const { data } = await Axios({
         method: SummaryApi.login.method,
@@ -33,43 +39,35 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
       });
 
-      if (!email || !password) {
-      toast.error("All fields are required");
-      return;
-    }
-
       if (data.success) {
         localStorage.setItem("token", data.data.accessToken);
-        
-        
         toast.success(data.message || "Login successful!");
+
+        // Redirect based on role or previous page
         if (data.data.updateUser.role === "ADMIN") {
-          navigate("/admin");
-          toast.success(data.message || "Login successful!");
+          navigate("/admin", { replace: true });
         } else {
-          navigate("/dashboard");
-          toast.success(data.message || "Login successful!");
+          navigate(redirectPath, { replace: true });
         }
       } else {
         toast.error(data.message || "Login failed");
       }
-    } catch (error) {
-      console.error(error);
-      toast.error(error.response?.data?.message || "Something went wrong!");
+    } catch (err) {
+      console.error(err);
+      toast.error(err.response?.data?.message || "Something went wrong!");
     } finally {
       setLoading(false);
     }
   };
 
-  
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-blue-100">
-      
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">
           Login
         </h2>
+
+        {loading && <Loader />}
 
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           {/* Email */}
@@ -82,7 +80,6 @@ const Login = () => {
               value={formData.email}
               onChange={handleChange}
               className="flex-1 outline-none"
-              
             />
           </div>
 
@@ -96,7 +93,6 @@ const Login = () => {
               value={formData.password}
               onChange={handleChange}
               className="flex-1 outline-none"
-             
             />
             <button
               type="button"
@@ -105,26 +101,26 @@ const Login = () => {
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
-            
           </div>
-            <div className="text-right mt-1">
-                <span
-                  onClick={() => navigate('/forgot-password')}
-                  className="text-sm text-blue-600 hover:underline cursor-pointer"
-                >
-                  Forgot Password?
-                </span>
-              </div>
 
+          {/* Forgot Password */}
+          <div className="text-right text-sm text-blue-600 hover:underline cursor-pointer">
+            <span onClick={() => navigate("/forgot-password")}>
+              Forgot Password?
+            </span>
+          </div>
+
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-300 to-blue-600 text-white font-semibold shadow-md hover:from-blue-600 hover:to-blue-1000 hover:font-bold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+            className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold shadow-md hover:from-blue-600 hover:to-blue-400 hover:font-bold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
+        {/* Register Link */}
         <p className="mt-4 text-center text-gray-600">
           Don't have an account?{" "}
           <Link to="/register" className="text-blue-500 hover:underline">

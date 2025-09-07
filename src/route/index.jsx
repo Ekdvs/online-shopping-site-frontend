@@ -17,82 +17,65 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import Home from "../pages/Home/Home";
 import CategoryProducts from "../pages/CategoryProducts";
 import SubcategoryProducts from "../pages/SubcategoryProducts";
+import Cart from "../pages/user/Cart";
+import PrivateRoute from "../components/PrivateRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <App />,
     children: [
-      {
-        path:'/', 
-        element: <Home/>
-      },
-      {
-        path:'/register', 
-        element: <Register/>
-      },
-      {
-        path:'/loader', 
-        element: <Loader/>
-      },
-      {
-        path:'/login', 
-        element:<Login/>
-      },
-      {
-        path:'/verify-email', 
-        element: <VerifyEmail/>
-      },
-      {
-        path:'/forgot-password', 
-        element:<ForgotPassword/>
-      },
-      {
-        path:'/verify-forgot-otp', 
-        element:<VerifyOtp/>
-      },
-      {
-        path:'/reset-password', 
-        element:<ResetPassword/>
-      },
+      { path: "/", element: <Home /> },
+      { path: "/register", element: <Register /> },
+      { path: "/login", element: <Login /> },
+      { path: "/verify-email", element: <VerifyEmail /> },
+      { path: "/forgot-password", element: <ForgotPassword /> },
+      { path: "/verify-forgot-otp", element: <VerifyOtp /> },
+      { path: "/reset-password", element: <ResetPassword /> },
+
+      // Protected Routes
       {
         path: "/dashboard",
-        element: <UserDashboard/>,
+        element: (
+          <PrivateRoute>
+            <UserDashboard />
+          </PrivateRoute>
+        ),
       },
-      
       {
         path: "/product/:id",
-        element: <ProductDetails/>,
+        element: (
+          <PrivateRoute>
+            <ProductDetails />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/checkout",
-        element: <Checkout/>
+        element: (
+          <PrivateRoute>
+            <Checkout />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/payment",
-        element: <Payment/>
+        element: (
+          <PrivateRoute>
+            <Payment />
+          </PrivateRoute>
+        ),
       },
-      {
-        path: "/checkout",
-        element: <Checkout/>
-      },
-      {
-        path: "/admin",
-        element: <AdminDashboard/>
-      },
-        {
-          path: "/category/:name",
-          element: <CategoryProducts/>
-        },
-        {
-          path: "/subcategory/:id",
-          element: <SubcategoryProducts/>
-        }
-      ]
-  }
+
+      // Public/Admin Routes
+      { path: "/admin", element: <AdminDashboard /> },
+      { path: "/category/:name", element: <CategoryProducts /> },
+      { path: "/subcategory/:id", element: <SubcategoryProducts /> },
+      { path: "/cart", element: <Cart /> },
+    ],
+  },
 ]);
 
 export default router;
-
 
 

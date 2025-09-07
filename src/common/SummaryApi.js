@@ -1,8 +1,8 @@
 import ForgotPassword from "../pages/user/ForgotPassword";
 import ResetPassword from "../pages/user/ResetPassword";
 
-export const baseURL = "https://online-shoping-site-backend-1.onrender.com/";
-//export const baseURL="http://localhost:8080/";
+//export const baseURL = "https://online-shoping-site-backend-1.onrender.com/";
+export const baseURL="http://localhost:8080/";
 const SummaryApi={
     register:{
         url: "/api/user/register",
@@ -97,17 +97,17 @@ const SummaryApi={
     method: "POST",
     url: "/api/cart/create",
   },
-  getCartItems: {
+  getCart: {
+    url: "/api/cart/get",
     method: "GET",
-    url: "/api/cart/list",
   },
-  updateCartItem: {
+  updateCart: {
+    url: "/api/cart/update",
     method: "PUT",
-    url: "/api/cart/update/:id",
   },
-  deleteCartItem: {
+  deleteCart: {
+    url: "/api/cart/delete",
     method: "DELETE",
-    url: "/api/cart/delete/:id",
   },
 
   // ✅ Orders
@@ -170,6 +170,11 @@ const SummaryApi={
   method: "GET",
   
 },
+getSubCategoriesByCategory: {
+    method: "GET",
+    url: "/api/subcategory/byCategory", // we will append /:idOrName later
+  },
+
 
     createProduct: {
     url: "/api/products/create",
@@ -206,6 +211,10 @@ const SummaryApi={
   deleteCoupon: { 
     method: "DELETE",
     url: "/api/coupon/delete" 
+  },
+  applyCoupon: {
+    url: "/api/coupon/apply", 
+    method: "POST",
   },
 
   getAllReviews: { 

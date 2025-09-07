@@ -27,7 +27,7 @@ const AdminProducts = () => {
 
   const token = localStorage.getItem("token");
 
-  // Fetch categories & subcategories
+  // Fetch categories
   const fetchCategories = async () => {
     try {
       const { data } = await Axios({
@@ -40,6 +40,7 @@ const AdminProducts = () => {
     }
   };
 
+  // Fetch subcategories
   const fetchSubCategories = async () => {
     try {
       const { data } = await Axios({
@@ -217,6 +218,13 @@ const AdminProducts = () => {
     setPreviews(newPreviews);
   };
 
+  // ✅ Reset subCategoryId when category changes
+  const handleCategoryChange = (e) => {
+    const value = e.target.value;
+    setCategoryId(value);
+    setSubCategoryId(""); // reset subcategory
+  };
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <ToastProvider />
@@ -252,7 +260,7 @@ const AdminProducts = () => {
 
         <select
           value={categoryId}
-          onChange={(e) => setCategoryId(e.target.value)}
+          onChange={handleCategoryChange}
           className="border rounded p-2 w-full"
         >
           <option value="">Select Category</option>
@@ -269,11 +277,13 @@ const AdminProducts = () => {
           className="border rounded p-2 w-full"
         >
           <option value="">Select SubCategory</option>
-          {subCategories.map((sc) => (
-            <option key={sc._id} value={sc._id}>
-              {sc.name}
-            </option>
-          ))}
+          {subCategories
+            .filter((sc) => sc.categoryId?._id === categoryId) // ✅ only show subcategories of selected category
+            .map((sc) => (
+              <option key={sc._id} value={sc._id}>
+                {sc.name}
+              </option>
+            ))}
         </select>
 
         <input
