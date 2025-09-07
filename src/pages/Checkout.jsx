@@ -10,6 +10,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { orderData } = location.state || {};
   const token = localStorage.getItem("token");
+
   if (!token) {
     toast.error("Please login to proceed");
     navigate("/login");
@@ -53,14 +54,11 @@ const Checkout = () => {
     if (!couponCode) return toast.error("Enter a coupon code");
     setLoadingCoupon(true);
     try {
-      let res;
-      if (SummaryApi.applyCoupon.method.toLowerCase() === "post") {
-        res = await Axios.post(SummaryApi.applyCoupon.url, { couponCode });
-      } else {
-        res = await Axios.get(SummaryApi.applyCoupon.url, {
-          params: { couponCode },
-        });
-      }
+      const res = await Axios.post(
+        SummaryApi.applyCoupon.url,
+        { couponCode },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       if (res.data.success) {
         setDiscount(res.data.discountAmount);
         toast.success(`Coupon applied! You saved Rs. ${res.data.discountAmount}`);
@@ -77,15 +75,10 @@ const Checkout = () => {
   // 🔄 Clear cart after order
   const clearCart = async () => {
     try {
-      let res;
-      if (SummaryApi.clearCart.method.toLowerCase() === "delete") {
-        res = await Axios.delete(SummaryApi.clearCart.url);
-      } else {
-        res = await Axios.post(SummaryApi.clearCart.url); // adjust to your backend
-      }
-      if (res.data.success) {
-        console.log("Cart cleared successfully");
-      }
+      const res = await Axios.delete(SummaryApi.clearCart.url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.data.success) console.log("Cart cleared successfully");
     } catch (err) {
       console.error("Failed to clear cart", err);
     }
@@ -106,21 +99,19 @@ const Checkout = () => {
     };
 
     try {
-      let res;
-      if (SummaryApi.createOrder.method.toLowerCase() === "post") {
-        res = await Axios.post(SummaryApi.createOrder.url, orderPayload);
-      } else {
-        res = await Axios.get(SummaryApi.createOrder.url, {
-          params: orderPayload,
-        });
-      }
+      const res = await Axios.post(
+        SummaryApi.createOrder.url,
+        orderPayload,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
       if (res.data.success) {
         toast.success("Order created successfully!");
 
-        // ✅ clear cart here
+        // ✅ Clear cart
         await clearCart();
 
-        // ✅ navigate to payment page
+        // ✅ Navigate to payment
         navigate("/payment", { state: { order: res.data.data } });
       } else {
         toast.error(res.data.message || "Failed to create order");
@@ -203,7 +194,7 @@ const Checkout = () => {
           <button
             onClick={handleApplyCoupon}
             disabled={loadingCoupon}
-            className=" py-3 rounded-lg bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold shadow-md hover:from-blue-600 hover:to-blue-400 hover:font-bold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+            className=" py-3 rounded-lg bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold shadow-md hover:from-blue-600 hover:to-blue-400 active:scale-95 transition-all duration-200"
           >
             {loadingCoupon ? "Applying..." : "Apply"}
           </button>
@@ -215,7 +206,7 @@ const Checkout = () => {
         <button
           onClick={handleProceedToPay}
           disabled={creatingOrder}
-          className="w-full py-3 rounded-lg bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold shadow-md hover:from-green-600 hover:to-green-400 hover:font-bold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+          className="w-full py-3 rounded-lg bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold shadow-md hover:from-green-600 hover:to-green-400 active:scale-95 transition-all duration-200"
         >
           {creatingOrder ? "Placing Order..." : "Proceed to Pay"}
         </button>

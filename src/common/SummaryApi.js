@@ -109,6 +109,9 @@ const SummaryApi={
       url: "/api/cart/delete",
       method: "DELETE",
     },
+    clearCart: { 
+      method: "DELETE", 
+      url: "/api/cart/clear" },
 
     // ✅ Orders
     createOrder: {
