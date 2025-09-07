@@ -67,7 +67,7 @@ const Login = () => {
           Login
         </h2>
 
-        {loading && <Loader />}
+        
 
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           {/* Email */}

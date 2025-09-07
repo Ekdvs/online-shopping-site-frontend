@@ -45,7 +45,7 @@ const ProductsGrid = ({ products }) => {
               </p>
 
               <div className="mt-1 flex items-center gap-2">
-                <p className="text-blue-600 font-bold">${finalPrice}</p>
+                <p className="text-blue-600 font-bold">Rs:{finalPrice}</p>
                 {discount > 0 && (
                   <p className="text-red-500 text-xs line-through">${price}</p>
                 )}

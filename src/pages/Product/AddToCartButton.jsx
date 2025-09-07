@@ -30,7 +30,7 @@ const AddToCartButton = ({ productId, quantity = 1 }) => {
     <button
       onClick={handleAddToCart}
       disabled={loading}
-      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+      className="py-3 rounded-lg bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold shadow-md hover:from-green-600 hover:to-green-1000 hover:font-bold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
     >
       {loading ? "Adding..." : "Add to Cart"}
     </button>

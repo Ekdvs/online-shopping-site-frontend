@@ -15,6 +15,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const token = localStorage.getItem("token");
+  
 
   // 🛒 Fetch cart count
   const fetchCartCount = async () => {
@@ -22,6 +24,7 @@ const Navbar = () => {
       const { data } = await Axios({
         method: SummaryApi.getCart.method,
         url: SummaryApi.getCart.url,
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (data.success) {
         setCartCount(data.data.length); 

@@ -17,7 +17,7 @@ const BuyNowButton = ({ product, quantity = 1 }) => {
 
     setLoading(true);
     try {
-      // 1️⃣ Fetch user's latest address
+      
       const addressRes = await Axios.get("/api/address/get", {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -32,7 +32,7 @@ const BuyNowButton = ({ product, quantity = 1 }) => {
         return;
       }
 
-      // 2️⃣ Prepare order payload
+      
       const orderPayload = {
         orderId: `ORD-${Date.now()}`,
         product_details: [
@@ -52,13 +52,9 @@ const BuyNowButton = ({ product, quantity = 1 }) => {
         invoice_receipt: null,
       };
 
-      // 3️⃣ Optional: create order via API immediately
-      // const { data } = await Axios.post("/api/order/create", orderPayload, {
-      //   headers: { Authorization: `Bearer ${token}` },
-      // });
-      // toast.success(data.message);
+     
 
-      // 4️⃣ Navigate to checkout page
+      
       navigate("/checkout", {
         state: {
           orderData: {
@@ -79,7 +75,7 @@ const BuyNowButton = ({ product, quantity = 1 }) => {
   return (
     <button
       onClick={handleBuyNow}
-      className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 disabled:opacity-50"
+      className="py-3 rounded-lg bg-gradient-to-r from-red-300 to-red-600 text-white font-semibold shadow-md hover:from-red-600 hover:to-red-1000 hover:font-bold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
       disabled={loading}
     >
       {loading ? "Processing..." : "Buy Now"}

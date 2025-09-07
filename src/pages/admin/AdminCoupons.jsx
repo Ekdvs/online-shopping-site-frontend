@@ -246,13 +246,13 @@ const AdminCoupons = () => {
                   <td className="border p-2 flex gap-2">
                     <button
                       onClick={() => handleEdit(coupon)}
-                      className="px-3 py-1 rounded-lg bg-yellow-500 text-white hover:bg-yellow-600"
+                      className="w-full py-3 rounded-lg bg-gradient-to-r from-yellow-300 to-yellow-600 text-white font-semibold shadow-md hover:from-yellow-600 hover:to-yellow-1000 hover:font-bold active:scale-95 transition-all duration-200"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(coupon._id)}
-                      className="px-3 py-1 rounded-lg bg-red-500 text-white hover:bg-red-600"
+                      className="w-full py-3 rounded-lg bg-gradient-to-r from-red-300 to-red-600 text-white font-semibold shadow-md hover:from-red-600 hover:to-red-1000 hover:font-bold active:scale-95 transition-all duration-200"
                     >
                       Delete
                     </button>
