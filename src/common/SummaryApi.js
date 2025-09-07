@@ -93,138 +93,136 @@ const SummaryApi={
     },
 
       // ✅ Cart
-  createCartItem: {
-    method: "POST",
-    url: "/api/cart/create",
-  },
-  getCart: {
-    url: "/api/cart/get",
-    method: "GET",
-  },
-  updateCart: {
-    url: "/api/cart/update",
-    method: "PUT",
-  },
-  deleteCart: {
-    url: "/api/cart/delete",
-    method: "DELETE",
-  },
+    createCartItem: {
+      method: "POST",
+      url: "/api/cart/create",
+    },
+    getCart: {
+      url: "/api/cart/get",
+      method: "GET",
+    },
+    updateCart: {
+      url: "/api/cart/update",
+      method: "PUT",
+    },
+    deleteCart: {
+      url: "/api/cart/delete",
+      method: "DELETE",
+    },
 
-  // ✅ Orders
-  createOrder: {
-    method: "POST",
-    url: "/api/order/create",
-  },
-  getOrders: {
-    method: "GET",
-    url: "/api/order/list",
-  },
-  getOrderById: {
-    method: "GET",
-    url: "/api/order/:id",
-  },
+    // ✅ Orders
+    createOrder: {
+      method: "POST",
+      url: "/api/order/create",
+    },
+    getOrders: {
+      method: "GET",
+      url: "/api/order/list",
+    },
+    getOrderById: {
+      method: "GET",
+      url: "/api/order/:id",
+    },
 
-  createCategory: { 
-    method: "POST", 
-    url: "/api/category/create" 
-  },
-  getAllCategories: { 
-    method: "GET", 
-    url: "/api/category/getall" 
-  },
-  updateCategory: { 
-    method: "PUT", 
-    url: "/api/category/update" 
-  },
-  deleteCategory: { 
-    method: "DELETE", 
-    url: "/api/category/delete" 
-  },
-  searchCategory: { 
-    method: "POST", 
-    url: "/api/category/search" 
-  },
+    createCategory: { 
+      method: "POST", 
+      url: "/api/category/create" 
+    },
+    getAllCategories: { 
+      method: "GET", 
+      url: "/api/category/getall" 
+    },
+    updateCategory: { 
+      method: "PUT", 
+      url: "/api/category/update" 
+    },
+    deleteCategory: { 
+      method: "DELETE", 
+      url: "/api/category/delete" 
+    },
+    searchCategory: { 
+      method: "POST", 
+      url: "/api/category/search" 
+    },
 
-   createSubCategory: {
-    url: "/api/subcategory/create",
-    method: "POST",
-  },
-  getAllSubCategories: {
-    url: "/api/subCategory/getall",
-    method: "GET",
-  },
-  updateSubCategory: {
-    url: "/api/subCategory/update",
-    method: "PUT",
-  },
-  deleteSubCategory: {
-    url: "/api/subCategory/delete",
-    method: "DELETE"
-  },
-  searchSubCategory: {
-    url: "/api/subCategory/search",
-    method: "GET"
-  },
-  getSubCategoryById: {
-  url: "/api/subcategory/get", 
-  method: "GET",
-  
-},
-getSubCategoriesByCategory: {
-    method: "GET",
-    url: "/api/subcategory/byCategory", // we will append /:idOrName later
-  },
-
-
+    createSubCategory: {
+      url: "/api/subcategory/create",
+      method: "POST",
+    },
+    getAllSubCategories: {
+      url: "/api/subCategory/getall",
+      method: "GET",
+    },
+    updateSubCategory: {
+      url: "/api/subCategory/update",
+      method: "PUT",
+    },
+    deleteSubCategory: {
+      url: "/api/subCategory/delete",
+      method: "DELETE"
+    },
+    searchSubCategory: {
+      url: "/api/subCategory/search",
+      method: "GET"
+    },
+    getSubCategoryById: {
+      url: "/api/subcategory/get", 
+      method: "GET",
+   },
+    getSubCategoriesByCategory: {
+        method: "GET",
+        url: "/api/subcategory/byCategory", // we will append /:idOrName later
+    },
     createProduct: {
-    url: "/api/products/create",
-    method: "POST",
-  },
-  getProducts: {
-    url: "/api/products/getAll",
-    method: "GET",
-  },
-  updateProduct: {
-    url: "/api/products/update",
-    method: "PUT",
-  },
-  deleteProduct: {
-    url: "/api/products/delete",
-    method: "DELETE",
-  },
-  searchProduct: {
-    url: "/api/products/search",
-    method: "GET",
-  },
+      url: "/api/products/create",
+      method: "POST",
+    },
+    getProducts: {
+      url: "/api/products/getAll",
+      method: "GET",
+    },
+    updateProduct: {
+      url: "/api/products/update",
+      method: "PUT",
+    },
+    deleteProduct: {
+      url: "/api/products/delete",
+      method: "DELETE",
+    },
+    searchProduct: {
+      url: "/api/products/search",
+      method: "GET",
+    },
 
-  createCoupon: { 
-    method: "POST", 
-    url: "/api/coupon/create" 
-  },
-  getCoupons: { 
-    method: "GET", 
-    url: "/api/coupon/getall" 
-  },
-  updateCoupon: { 
-    method: "PUT", url: "/api/coupon/update" 
-  },
-  deleteCoupon: { 
-    method: "DELETE",
-    url: "/api/coupon/delete" 
-  },
-  applyCoupon: {
-    url: "/api/coupon/apply", 
-    method: "POST",
-  },
+    createCoupon: { 
+      method: "POST", 
+      url: "/api/coupon/create" 
+    },
+    getCoupons: { 
+      method: "GET", 
+      url: "/api/coupon/getall" 
+    },
+    updateCoupon: { 
+      method: "PUT", 
+      url: "/api/coupon/update" 
+    },
+    deleteCoupon: { 
+      method: "DELETE",
+      url: "/api/coupon/delete" 
+    },
+    applyCoupon: {
+      url: "/api/coupon/apply", 
+      method: "POST",
+    },
 
-  getAllReviews: { 
-    method: "GET", 
-    url: "/api/reviews/admin/getall" 
-  },
-  deleteReview: { 
-    method: "DELETE", 
-    url: "/api/reviews" 
-  },
+    getAllReviews: { 
+      method: "GET", 
+      url: "/api/reviews/admin/getall" 
+    },
+    deleteReview: { 
+      method: "DELETE", 
+      url: "/api/reviews" 
+    },
 
 
 
