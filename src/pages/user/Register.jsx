@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Axios from "../../utils/Axios";
 import SummaryApi from "../../common/SummaryApi";
 import ToastProvider from "../../components/ToastProvider";
+import { Title } from "react-head";
 
 
 const Register = () => {
