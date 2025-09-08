@@ -130,6 +130,10 @@ const SummaryApi={
       method: "GET",
       url: "/api/order/getuser",
     },
+    updateOrder: {
+    url: "/api/order/update", // adjust if your backend route differs
+    method: "PUT",
+  },
 
     createCategory: { 
       method: "POST", 
