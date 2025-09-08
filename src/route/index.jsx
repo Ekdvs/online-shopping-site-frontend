@@ -24,6 +24,7 @@ import FAQ from "../pages/FAQ";
 import TermsConditions from "../pages/TermsConditions";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
 import ShippingReturns from "../pages/ShippingReturns";
+import PaymentForm from "../pages/Payment";
 
 const router = createBrowserRouter([
   {
@@ -74,7 +75,7 @@ const router = createBrowserRouter([
         path: "/payment",
         element: (
           <PrivateRoute>
-            <Payment />
+            <PaymentForm />
           </PrivateRoute>
         ),
       },

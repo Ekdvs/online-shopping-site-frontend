@@ -6,4 +6,13 @@ const Axios=axios.create({
     withCredentials:true,
 })
 
+// Automatically add Authorization header
+Axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 export default Axios;

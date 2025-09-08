@@ -1,55 +1,34 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import React from "react";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { useLocation } from "react-router-dom";
+import PaymentForm from "./PaymentForm";
 
-const Payment = () => {
+// 🔑 load Stripe with your public key
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
+const PaymentPage = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const { orderData } = location.state || {};
-  const [loading, setLoading] = useState(false);
+  const { order } = location.state || {};
 
-  if (!orderData) return <p>No order data found!</p>;
-
-  const handlePayment = async () => {
-    setLoading(true);
-    try {
-      // Fake payment gateway call
-      const paymentResponse = await new Promise((resolve) =>
-        setTimeout(() => resolve({ success: true, paymentId: "PAY123456" }), 1500)
-      );
-
-      if (paymentResponse.success) {
-        // Update order in DB
-        await axios.put(`http://localhost:8080/api/orders/${orderData.id}`, {
-          paymentStatus: "Paid",
-          paymentId: paymentResponse.paymentId,
-        });
-
-        navigate("/order-success", { state: { orderData } });
-      } else {
-        alert("Payment Failed!");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Error processing payment");
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (!order) {
+    return (
+      <div className="text-center py-20">
+        <p className="text-gray-500">No order data found.</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-md mx-auto p-4 text-center">
-      <h2 className="font-bold text-xl mb-4">Payment</h2>
-      <p>Total Amount: Rs. {orderData.total}</p>
-      <button
-        onClick={handlePayment}
-        className="mt-4 w-full py-3 bg-green-500 text-white rounded hover:bg-green-600 transition"
-        disabled={loading}
-      >
-        {loading ? "Processing..." : "Pay Now"}
-      </button>
+    <div className="max-w-lg mx-auto p-6 bg-white shadow rounded-lg">
+      <h2 className="text-xl font-bold mb-4 text-gray-800">
+        Complete Payment
+      </h2>
+      <Elements stripe={stripePromise}>
+        <PaymentForm order={order} />
+      </Elements>
     </div>
   );
 };
 
-export default Payment;
+export default PaymentPage;
