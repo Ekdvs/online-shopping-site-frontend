@@ -230,7 +230,7 @@ const SummaryApi={
       method: "DELETE", 
       url: "/api/reviews" 
     },
-    createPaymentIntent: { url: "/api/payments/create-payment-intent", method: "POST" },
+    createPaymentIntent: { url: "/api/payments/create-intent", method: "POST" },
 
 
 
