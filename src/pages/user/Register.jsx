@@ -88,12 +88,7 @@ const Register = () => {
 
   return (
     <>
-    <Title>Register | ShopEase</Title>
-      <Meta name="description" content="Create your ShopEase account and start shopping today." />
-      <Meta property="og:title" content="Register | ShopEase" />
-      <Meta property="og:description" content="Join ShopEase to buy electronics, fashion, and more." />
-      <Meta property="og:image" content="/ShopEase.png" />
-      <Meta property="og:url" content="https://online-shopping-site-frontend.vercel.app/register" />
+    
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <ToastProvider position="top-right" reverseOrder={false} />
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
