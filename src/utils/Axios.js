@@ -16,7 +16,7 @@ Axios.interceptors.request.use((config) => {
   return config;
 });
 
-Axios.interceptors.response.use(
+{/*Axios.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
@@ -29,6 +29,6 @@ Axios.interceptors.response.use(
     }
     return Promise.reject(error);
   }
-);
+);*/}
 
 export default Axios;
