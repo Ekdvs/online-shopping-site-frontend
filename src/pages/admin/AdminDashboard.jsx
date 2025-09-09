@@ -23,6 +23,7 @@ import AdminSubCategories from "./AdminSubCategories";
 import AdminProducts from "./AdminProducts";
 import AdminCoupons from "./AdminCoupons";
 import AdminReviews from "./AdminReviews";
+import OrdersAdmin from "./OrdersAdmin";
 
 
 
@@ -211,7 +212,7 @@ const AdminDashboard = () => {
       <main className="flex-1 p-6">
   {activeSection === "dashboard" && <DashboardContent user={user} token={token} />}
   {activeSection === "profile" && <EditProfile token={token} currentUser={user} />}
-  {activeSection === "orders" && <div>Orders Content</div>}
+  {activeSection === "orders" && <OrdersAdmin token={token} />}
   {activeSection === "notifications" && <div>Notifications Content</div>}
   {activeSection === "settings" && <Settings token={token} currentUser={user} />}
   {activeSection === "categories" && <AdminCategories />} 

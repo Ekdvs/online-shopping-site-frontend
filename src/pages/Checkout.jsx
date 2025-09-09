@@ -110,6 +110,7 @@ const Checkout = () => {
 
         // ✅ Clear cart
         await clearCart();
+        
 
         // ✅ Navigate to payment
         navigate("/payment", { state: { order: res.data.data } });

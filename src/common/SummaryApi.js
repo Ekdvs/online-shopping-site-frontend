@@ -1,8 +1,8 @@
 import ForgotPassword from "../pages/user/ForgotPassword";
 import ResetPassword from "../pages/user/ResetPassword";
 
-export const baseURL = "https://online-shoping-site-backend-1.onrender.com/";
-//export const baseURL="http://localhost:8080/";
+//export const baseURL = "https://online-shoping-site-backend-1.onrender.com/";
+export const baseURL="http://localhost:8080/";
 const SummaryApi={
     register:{
         url: "/api/user/register",
@@ -120,20 +120,20 @@ const SummaryApi={
     },
     getOrders: {
       method: "GET",
-      url: "/api/order/list",
+      url: "/api/order/getall",
     },
     getOrderById: {
-      method: "GET",
-      url: "/api/order/:id",
+    method: "GET",
+    url: (id) => `/api/order/${id}`,
     },
     getUserOrders: {
       method: "GET",
       url: "/api/order/getuser",
     },
     updateOrder: {
-    url: "/api/order/update", // adjust if your backend route differs
-    method: "PUT",
-  },
+  url: (orderId) => `/api/order/update/${orderId}`, // include orderId
+  method: "PUT",
+},
 
     createCategory: { 
       method: "POST", 

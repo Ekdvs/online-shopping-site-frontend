@@ -26,6 +26,7 @@ import PrivacyPolicy from "../pages/PrivacyPolicy";
 import ShippingReturns from "../pages/ShippingReturns";
 import PaymentForm from "../pages/Payment";
 import OrderSuccess from "../pages/OrderSuccess";
+import OrderDetails from "../pages/OrderDetails";
 
 const router = createBrowserRouter([
   {
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
       { path: "/terms&conditions", element: <TermsConditions /> },
       { path: "/privacypolicy", element: <PrivacyPolicy /> },
       { path: "/shipping&returns", element: <ShippingReturns /> },
-       { path: "/orders", element: <OrderSuccess /> },
+       { path: "/ordersuccess", element: <OrderSuccess /> },
 
       // Protected Routes
       {
@@ -78,6 +79,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <PaymentForm />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/ordershow/:orderId",
+        element: (
+          <PrivateRoute>
+            <OrderDetails />
           </PrivateRoute>
         ),
       },

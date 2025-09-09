@@ -19,6 +19,12 @@ const ProductDetails = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  const token = localStorage.getItem("token");
+
+  if(!token) {
+    toast.error("Please login to view product details");
+    window.location.href = "/login";
+  }
 
   // Dynamic total price
   const totalPrice = useMemo(() => {
