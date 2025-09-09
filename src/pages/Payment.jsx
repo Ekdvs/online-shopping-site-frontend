@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import PaymentForm from "./PaymentForm";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+console.log("Stripe Public Key:", import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 const PaymentPage = () => {
   const location = useLocation();
