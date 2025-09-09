@@ -101,6 +101,7 @@ const AdminCategories = () => {
     if (!window.confirm("Are you sure you want to delete this category?"))
       return;
     try {
+      setLoading(true);
       const { data } = await Axios({
         method: SummaryApi.deleteCategory.method,
         url: SummaryApi.deleteCategory.url,
@@ -118,6 +119,9 @@ const AdminCategories = () => {
     } catch (error) {
       console.error(error);
       toast.error("Error deleting category");
+    }
+    finally{
+      setLoading(false);
     }
   };
 

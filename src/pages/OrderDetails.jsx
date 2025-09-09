@@ -4,7 +4,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import Axios from "../utils/Axios";
 import toast from "react-hot-toast";
 import {
-  CheckCircleIcon,
   ClockIcon,
   XCircleIcon,
   TruckIcon,
@@ -48,31 +47,7 @@ const OrderDetails = () => {
 
   const products = JSON.parse(order.product_details);
 
-  const paymentBadge = (status) => {
-    switch (status.toLowerCase()) {
-      case "completed":
-        return (
-          <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full flex items-center gap-1">
-            <CheckCircleIcon className="w-5 h-5" /> Completed
-          </span>
-        );
-      case "pending":
-        return (
-          <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full flex items-center gap-1">
-            <ClockIcon className="w-5 h-5" /> Pending
-          </span>
-        );
-      case "failed":
-        return (
-          <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full flex items-center gap-1">
-            <XCircleIcon className="w-5 h-5" /> Failed
-          </span>
-        );
-      default:
-        return <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full">{status}</span>;
-    }
-  };
-
+  // Delivery status badges (only UI)
   const deliveryBadge = (status) => {
     switch (status.toLowerCase()) {
       case "pending":
@@ -104,7 +79,7 @@ const OrderDetails = () => {
     }
   };
 
-  // Delivery Steps
+  // Delivery steps progress
   const deliverySteps = ["pending", "shipped", "delivered"];
   const currentStep = deliverySteps.indexOf(order.delivery_status.toLowerCase());
 
@@ -125,7 +100,7 @@ const OrderDetails = () => {
           onClick={() => navigate("/")}
           className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition flex items-center gap-1"
         >
-          <HomeIcon className="w-5 h-5" /> 7Home
+          <HomeIcon className="w-5 h-5" /> Home
         </button>
       </div>
 
@@ -141,28 +116,28 @@ const OrderDetails = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <p><strong>Order ID:</strong> {order.orderId}</p>
               <p><strong>Created At:</strong> {new Date(order.createdAt).toLocaleString()}</p>
-              <p><strong>Payment Status:</strong> {paymentBadge(order.payment_status)}</p>
+              <p><strong>Payment Status:</strong> {order.payment_status}</p>
               <p><strong>Delivery Status:</strong> {deliveryBadge(order.delivery_status)}</p>
             </div>
 
-            {/* Animated Delivery Progress */}
+            {/* Delivery Progress */}
             <div className="mt-6">
               <h3 className="font-semibold mb-2">Delivery Progress</h3>
               <div className="relative flex items-center justify-between">
-                {/* Horizontal line */}
+                {/* Progress line */}
                 <div className="absolute top-4 left-0 right-0 h-1 bg-gray-300 rounded">
                   <div
                     className="h-1 bg-green-600 rounded transition-all duration-700 ease-in-out"
                     style={{ width: `${((currentStep + 1) / deliverySteps.length) * 100}%` }}
                   />
                 </div>
-                {/* Step Circles */}
+                {/* Steps */}
                 {deliverySteps.map((step, index) => (
                   <div key={step} className="relative z-10 flex flex-col items-center">
                     <div
                       className={`w-10 h-10 flex items-center justify-center rounded-full text-white ${
                         index <= currentStep ? "bg-green-600" : "bg-gray-300"
-                      } transition-colors duration-500`}
+                      }`}
                     >
                       {index + 1}
                     </div>
@@ -197,7 +172,7 @@ const OrderDetails = () => {
               {products.map((product) => (
                 <div
                   key={product.productId}
-                  className="flex items-center border p-4 rounded-lg bg-gray-50 hover:shadow-md transition"
+                  className="flex items-center border p-4 rounded-lg bg-gray-50"
                 >
                   <img
                     src={product.image}
@@ -234,12 +209,11 @@ const OrderDetails = () => {
             </div>
           </div>
         </div>
-        
       </div>
-      {/* Navigation Buttons */}
-      <div className="">
-        
-         <button
+
+      {/* Bottom Home Button */}
+      <div>
+        <button
           onClick={() => navigate("/")}
           className="w-full py-3 rounded-lg bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold shadow-md hover:from-green-600 hover:to-green-400 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
         >

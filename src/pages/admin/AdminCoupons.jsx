@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "../../utils/Axios";
 import SummaryApi from "../../common/SummaryApi";
 import toast from "react-hot-toast";
+import Loader from "../../components/Loader";
 
 const AdminCoupons = () => {
   const [coupons, setCoupons] = useState([]);
@@ -20,6 +21,7 @@ const AdminCoupons = () => {
   //Fetch all coupons
   const fetchCoupons = async () => {
     try {
+      setLoading(true);
       const { data } = await Axios({
         method: SummaryApi.getCoupons.method,
         url: SummaryApi.getCoupons.url,
@@ -32,6 +34,9 @@ const AdminCoupons = () => {
       }
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to load coupons");
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -105,6 +110,7 @@ const AdminCoupons = () => {
     if (!window.confirm("Are you sure you want to delete this coupon?")) return;
 
     try {
+      setLoading(true);
       const { data } = await Axios({
         method: SummaryApi.deleteCoupon.method,
         url: `${SummaryApi.deleteCoupon.url}/${id}`,
@@ -120,6 +126,9 @@ const AdminCoupons = () => {
       console.error(err);
       toast.error(err.response?.data?.message || "Failed to delete coupon");
     }
+    finally{
+      setLoading(false);
+    }
   };
 
   //Edit coupon
@@ -133,6 +142,10 @@ const AdminCoupons = () => {
       usageLimit: coupon.usageLimit,
     });
   };
+
+  if(loading){
+    <Loader/>
+  }
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">

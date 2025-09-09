@@ -24,13 +24,14 @@ import AdminProducts from "./AdminProducts";
 import AdminCoupons from "./AdminCoupons";
 import AdminReviews from "./AdminReviews";
 import OrdersAdmin from "./OrdersAdmin";
+import UsersAdmin from "./UsersAdmin";
 
 
 
 const AdminDashboard = () => {
   const [user, setUser] = useState(null);
   const [activeSection, setActiveSection] = useState("dashboard");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -49,6 +50,7 @@ const AdminDashboard = () => {
       }
 
       try {
+        setLoading(true);
         const { data } = await Axios({
           method: SummaryApi.getUser.method,
           url: SummaryApi.getUser.url,
@@ -78,6 +80,7 @@ const AdminDashboard = () => {
   // 🔥 Logout
   const handleLogout = async () => {
     try {
+      setLoading(true);
       await Axios({
         method: SummaryApi.logout.method,
         url: SummaryApi.logout.url,
@@ -181,6 +184,16 @@ const AdminDashboard = () => {
           </li>
           <li
             className={`flex items-center gap-2 cursor-pointer ${
+              activeSection === "users"
+                ? "text-blue-600 font-semibold"
+                : "text-gray-700"
+            }`}
+            onClick={() => setActiveSection("users")}
+          >
+            <FaBell /> User Managment
+          </li>
+          <li
+            className={`flex items-center gap-2 cursor-pointer ${
               activeSection === "notifications"
                 ? "text-blue-600 font-semibold"
                 : "text-gray-700"
@@ -220,6 +233,7 @@ const AdminDashboard = () => {
   {activeSection === "products" && <AdminProducts />}
   {activeSection === "coupons" && <AdminCoupons />}
   {activeSection === "reviews" && <AdminReviews />}
+  {activeSection === "users" && <UsersAdmin />}
 
 </main>
 

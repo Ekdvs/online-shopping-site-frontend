@@ -30,6 +30,7 @@ const AdminProducts = () => {
   // Fetch categories
   const fetchCategories = async () => {
     try {
+      setLoading(true);
       const { data } = await Axios({
         method: SummaryApi.getAllCategories.method,
         url: SummaryApi.getAllCategories.url,
@@ -38,11 +39,15 @@ const AdminProducts = () => {
     } catch {
       toast.error("Failed to load categories");
     }
+    finally{
+      setLoading(false);
+    }
   };
 
   // Fetch subcategories
   const fetchSubCategories = async () => {
     try {
+      setLoading(true);
       const { data } = await Axios({
         method: SummaryApi.getAllSubCategories.method,
         url: SummaryApi.getAllSubCategories.url,
@@ -51,11 +56,15 @@ const AdminProducts = () => {
     } catch {
       toast.error("Failed to load subcategories");
     }
+    finally{
+      setLoading(false);
+    }
   };
 
   // Fetch products
   const fetchProducts = async () => {
     try {
+      setLoading(true);
       const { data } = await Axios({
         method: SummaryApi.getProducts.method,
         url: SummaryApi.getProducts.url,
@@ -63,6 +72,9 @@ const AdminProducts = () => {
       if (data.success) setProducts(data.data);
     } catch {
       toast.error("Failed to load products");
+    }
+    finally{
+      setLoading(false);
     }
   };
 
