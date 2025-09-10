@@ -98,6 +98,7 @@ const PaymentForm = ({ order, setOrder }) => {
         toast.error(`Payment status: ${paymentIntent?.status}`);
       }
     } catch (err) {
+      
       console.error("Unexpected error:", err);
       toast.error("Unexpected error. Please try again.");
     } finally {
