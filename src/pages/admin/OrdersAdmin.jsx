@@ -8,6 +8,7 @@ import {
   TruckIcon,
   XCircleIcon,
 } from "@heroicons/react/24/solid";
+import Loader from "../../components/Loader";
 
 const OrdersAdmin = () => {
   const [orders, setOrders] = useState([]);
@@ -140,7 +141,7 @@ const OrdersAdmin = () => {
     );
   };
 
-  if (loading) return <p className="text-center py-10">Loading orders...</p>;
+  if (loading) return <Loader/>
 
   return (
     <div className="max-w-6xl mx-auto p-4">
