@@ -15,8 +15,11 @@ import Loader from "../../components/Loader";
 import toast from "react-hot-toast"; // ✅ use hot-toast instead
 import Settings from "./Settings";
 import Cart from "./Cart";
-import { ShoppingCartIcon } from "lucide-react";
+import { ShoppingCartIcon, StarIcon } from "lucide-react";
 import UserOrders from "./UserOrders";
+import UserReviews from "./Reviews";
+import PaymentHistory from "./PaymentHistory";
+import { ReceiptPercentIcon } from "@heroicons/react/24/solid";
 
 const UserDashboard = () => {
   const [user, setUser] = useState(null);
@@ -131,6 +134,26 @@ const UserDashboard = () => {
           </li>
           <li
             className={`flex items-center gap-2 cursor-pointer ${
+              activeSection === "rating"
+                ? "text-blue-600 font-semibold"
+                : "text-gray-700"
+            }`}
+            onClick={() => setActiveSection("rating")}
+          >
+            <StarIcon /> Rating
+          </li>
+          <li
+            className={`flex items-center gap-2 cursor-pointer ${
+              activeSection === "payments"
+                ? "text-blue-600 font-semibold"
+                : "text-gray-700"
+            }`}
+            onClick={() => setActiveSection("payments")}
+          >
+            <ReceiptPercentIcon className="h-5 w-5 "/> Payment Histrory
+          </li>
+          <li
+            className={`flex items-center gap-2 cursor-pointer ${
               activeSection === "notifications"
                 ? "text-blue-600 font-semibold"
                 : "text-gray-700"
@@ -166,6 +189,8 @@ const UserDashboard = () => {
   {activeSection === "notifications" && <div>Notifications Content</div>}
   {activeSection === "settings" && <Settings token={token} currentUser={user} />}
   {activeSection === "cart" && <Cart token={token} currentUser={user} />}
+  {activeSection === "rating" && <UserReviews token={token} currentUser={user} />}
+  {activeSection === "payments" && <PaymentHistory token={token} />}
 </main>
 
     </div>

@@ -32,24 +32,17 @@ const Checkout = () => {
   }
 
   const { items, deliveryFee } = orderData;
-
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [couponCode, setCouponCode] = useState("");
   const [discount, setDiscount] = useState(0);
   const [loadingCoupon, setLoadingCoupon] = useState(false);
   const [creatingOrder, setCreatingOrder] = useState(false);
 
-  // 🧾 Calculate totals
-  const itemsTotal = useMemo(
-    () => items.reduce((sum, i) => sum + i.price * i.quantity, 0),
-    [items]
-  );
-  const grandTotal = useMemo(
-    () => itemsTotal + deliveryFee - discount,
-    [itemsTotal, deliveryFee, discount]
-  );
+  // Calculate totals
+  const itemsTotal = useMemo(() => items.reduce((sum, i) => sum + i.price * i.quantity, 0), [items]);
+  const grandTotal = useMemo(() => itemsTotal + deliveryFee - discount, [itemsTotal, deliveryFee, discount]);
 
-  // 🎟 Apply coupon
+  // Apply coupon
   const handleApplyCoupon = async () => {
     if (!couponCode) return toast.error("Enter a coupon code");
     setLoadingCoupon(true);
@@ -72,19 +65,17 @@ const Checkout = () => {
     }
   };
 
-  // 🔄 Clear cart after order
+  // Clear cart after order
   const clearCart = async () => {
     try {
-      const res = await Axios.delete(SummaryApi.clearCart.url, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await Axios.delete(SummaryApi.clearCart.url, { headers: { Authorization: `Bearer ${token}` } });
       if (res.data.success) console.log("Cart cleared successfully");
     } catch (err) {
       console.error("Failed to clear cart", err);
     }
   };
 
-  // 🛒 Proceed to order
+  // Proceed to payment
   const handleProceedToPay = async () => {
     if (!selectedAddress) return toast.error("Please select a delivery address");
     setCreatingOrder(true);
@@ -95,24 +86,17 @@ const Checkout = () => {
       subTotalAmt: itemsTotal,
       totalAmt: grandTotal,
       payment_status: "pending",
-      payment_id: `COD-${Date.now()}`,
+      payment_id: `COD-${Date.now()}`, // Temporary, updated after Stripe payment
     };
 
     try {
-      const res = await Axios.post(
-        SummaryApi.createOrder.url,
-        orderPayload,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await Axios.post(SummaryApi.createOrder.url, orderPayload, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       if (res.data.success) {
         toast.success("Order created successfully!");
-
-        // ✅ Clear cart
         await clearCart();
-        
-
-        // ✅ Navigate to payment
         navigate("/payment", { state: { order: res.data.data } });
       } else {
         toast.error(res.data.message || "Failed to create order");
@@ -129,27 +113,16 @@ const Checkout = () => {
       {/* Address Selection */}
       <div className="border p-4 rounded-lg shadow-sm bg-white">
         <UserAddress onSelect={setSelectedAddress} />
-        {!selectedAddress && (
-          <p className="mt-2 text-red-500 text-sm">
-            Please select a delivery address to proceed.
-          </p>
-        )}
+        {!selectedAddress && <p className="mt-2 text-red-500 text-sm">Please select a delivery address to proceed.</p>}
       </div>
 
       {/* Order Items */}
       <div className="border p-4 rounded-lg shadow-sm bg-white">
         <h2 className="font-bold text-lg mb-3 text-gray-800">Order Items</h2>
         {items.map((item, idx) => (
-          <div
-            key={idx}
-            className="flex justify-between items-center my-3 border-b pb-2 last:border-b-0"
-          >
+          <div key={idx} className="flex justify-between items-center my-3 border-b pb-2 last:border-b-0">
             <div className="flex items-center gap-4">
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-16 h-16 object-cover rounded-lg shadow-sm"
-              />
+              <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-lg shadow-sm" />
               <div>
                 <p className="font-medium text-gray-800">{item.name}</p>
                 <p className="text-gray-600 text-sm">Qty: {item.quantity}</p>
@@ -160,30 +133,14 @@ const Checkout = () => {
         ))}
       </div>
 
-      {/* Order Summary */}
+      {/* Order Summary & Coupon */}
       <div className="border p-4 rounded-lg shadow-sm space-y-3 bg-white">
         <h2 className="font-bold text-lg mb-3 text-gray-800">Order Summary</h2>
+        <div className="flex justify-between text-gray-700"><span>Items Total</span><span>Rs. {itemsTotal}</span></div>
+        <div className="flex justify-between text-gray-700"><span>Delivery Fee</span><span>Rs. {deliveryFee}</span></div>
+        {discount > 0 && <div className="flex justify-between text-green-600"><span>Discount</span><span>- Rs. {discount}</span></div>}
+        <div className="flex justify-between font-bold text-lg text-gray-900 border-t pt-2"><span>Grand Total</span><span>Rs. {grandTotal}</span></div>
 
-        <div className="flex justify-between text-gray-700">
-          <span>Items Total</span>
-          <span>Rs. {itemsTotal}</span>
-        </div>
-        <div className="flex justify-between text-gray-700">
-          <span>Delivery Fee</span>
-          <span>Rs. {deliveryFee}</span>
-        </div>
-        {discount > 0 && (
-          <div className="flex justify-between text-green-600">
-            <span>Discount</span>
-            <span>- Rs. {discount}</span>
-          </div>
-        )}
-        <div className="flex justify-between font-bold text-lg text-gray-900 border-t pt-2">
-          <span>Grand Total</span>
-          <span>Rs. {grandTotal}</span>
-        </div>
-
-        {/* Coupon */}
         <div className="flex gap-2 mt-3">
           <input
             type="text"
@@ -202,7 +159,6 @@ const Checkout = () => {
         </div>
       </div>
 
-      {/* Place Order */}
       <div className="text-right">
         <button
           onClick={handleProceedToPay}

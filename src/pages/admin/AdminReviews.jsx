@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import Axios from "../../utils/Axios";
 import SummaryApi from "../../common/SummaryApi";
 import toast from "react-hot-toast";
+import { Loader } from "lucide-react";
 
 const AdminReviews = () => {
   const [reviews, setReviews] = useState([]);
   const token = localStorage.getItem("token");
+  const [loading, setLoading] = useState(false);
 
   const fetchReviews = async () => {
     try {
+      setLoading(true);
       const { data } = await Axios({
         method: SummaryApi.getAllReviews.method,
         url: SummaryApi.getAllReviews.url,
@@ -18,6 +21,9 @@ const AdminReviews = () => {
       if (data.success) setReviews(data.data); // ✅ fix here
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to fetch reviews");
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -41,6 +47,8 @@ const AdminReviews = () => {
       toast.error(err.response?.data?.message || "Failed to delete review");
     }
   };
+
+  if(loading) return <Loader />;
 
   return (
     <div>

@@ -25,6 +25,8 @@ import AdminCoupons from "./AdminCoupons";
 import AdminReviews from "./AdminReviews";
 import OrdersAdmin from "./OrdersAdmin";
 import UsersAdmin from "./UsersAdmin";
+import PaymentsAdmin from "./AdminPayment";
+import { ReceiptPercentIcon } from "@heroicons/react/24/outline";
 
 
 
@@ -194,6 +196,16 @@ const AdminDashboard = () => {
           </li>
           <li
             className={`flex items-center gap-2 cursor-pointer ${
+              activeSection === "payments"
+                ? "text-blue-600 font-semibold"
+                : "text-gray-700"
+            }`}
+            onClick={() => setActiveSection("payments")}
+          >
+            <ReceiptPercentIcon className="h-5 w-5 "/> Payment Managment
+          </li>
+          <li
+            className={`flex items-center gap-2 cursor-pointer ${
               activeSection === "notifications"
                 ? "text-blue-600 font-semibold"
                 : "text-gray-700"
@@ -234,6 +246,7 @@ const AdminDashboard = () => {
   {activeSection === "coupons" && <AdminCoupons />}
   {activeSection === "reviews" && <AdminReviews />}
   {activeSection === "users" && <UsersAdmin />}
+  {activeSection === "payments" && <div><PaymentsAdmin token={token} /></div>}
 
 </main>
 

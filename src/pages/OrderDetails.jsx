@@ -10,6 +10,8 @@ import {
   CheckBadgeIcon,
   HomeIcon,
 } from "@heroicons/react/24/solid";
+import ModernLoader from "../components/Loader";
+import Loader from "../components/Loader";
 
 const OrderDetails = () => {
   const { orderId } = useParams();
@@ -42,7 +44,7 @@ const OrderDetails = () => {
     if (orderId) fetchOrder();
   }, [orderId]);
 
-  if (loading) return <p className="text-center mt-10 text-lg">Loading...</p>;
+  if (loading) return <Loader/>
   if (!order) return <p className="text-center mt-10 text-lg">Order not found.</p>;
 
   const products = JSON.parse(order.product_details);

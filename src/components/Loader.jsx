@@ -1,6 +1,6 @@
 import React from "react";
 
-const ModernLoader = ({
+const Loader = ({
   size = 60,
   colorFrom = "#3B82F6", // Tailwind blue-500
   colorTo = "#06B6D4",   // Tailwind cyan-400
@@ -38,4 +38,4 @@ const ModernLoader = ({
   );
 };
 
-export default ModernLoader;
+export default Loader;

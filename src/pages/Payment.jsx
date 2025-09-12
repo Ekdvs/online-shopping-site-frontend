@@ -6,7 +6,6 @@ import PaymentForm from "./PaymentForm";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
-
 const PaymentPage = () => {
   const location = useLocation();
   const { order } = location.state || {};
@@ -20,8 +19,8 @@ const PaymentPage = () => {
   }
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white shadow rounded-lg">
-      <h2 className="text-xl font-bold mb-4 text-gray-800">
+    <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+      <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
         Complete Payment
       </h2>
       <Elements stripe={stripePromise}>
