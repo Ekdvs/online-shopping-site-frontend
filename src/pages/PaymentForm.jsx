@@ -129,7 +129,7 @@ const PaymentForm = () => {
         <p className="text-red-600 mb-4 text-lg">Initializing payment...</p>
         <button
           onClick={() => window.location.reload()}
-          className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+          className="w-full py-3 rounded-lg bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold shadow-md hover:from-green-600 hover:to-green-400 active:scale-95 transition-all duration-200"
         >
           Retry
         </button>
@@ -200,8 +200,8 @@ const PaymentForm = () => {
           )}
           <button
             onClick={() => navigate("/ordersuccess", { state: { orderData: order } })}
-            className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
-          >
+            className="w-full py-3 rounded-lg bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold shadow-md hover:from-green-600 hover:to-green-400 active:scale-95 transition-all duration-200"
+        >
             Go to Order Details
           </button>
         </div>
