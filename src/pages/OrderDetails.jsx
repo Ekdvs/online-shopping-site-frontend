@@ -86,7 +86,7 @@ const OrderDetails = () => {
   const currentStep = deliverySteps.indexOf(order.delivery_status.toLowerCase());
 
   const deliveryFee = 280;
-  const totalAmount = order.totalAmt;
+  const totalAmount = order.totalAmt+deliveryFee;
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
