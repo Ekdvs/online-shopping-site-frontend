@@ -183,7 +183,7 @@ const UserDashboard = () => {
 
       {/* Main Content */}
       <main className="flex-1 p-6">
-  {activeSection === "dashboard" && <DashboardContent user={user} token={token} />}
+  {activeSection === "dashboard" && <DashboardContent user={user} token={token} onLogout={handleLogout} />}
   {activeSection === "profile" && <EditProfile token={token} currentUser={user} />}
   {activeSection === "orders" && <div><UserOrders/></div>}
   {activeSection === "notifications" && <div>Notifications Content</div>}

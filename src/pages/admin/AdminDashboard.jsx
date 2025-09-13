@@ -6,6 +6,7 @@ import {
   FaCog,
   FaSignOutAlt,
   FaTag,
+  FaDatabase,
 } from "react-icons/fa";
 
 
@@ -27,12 +28,13 @@ import OrdersAdmin from "./OrdersAdmin";
 import UsersAdmin from "./UsersAdmin";
 import PaymentsAdmin from "./AdminPayment";
 import { ReceiptPercentIcon } from "@heroicons/react/24/outline";
+import AdminDashboardContent from "./DashboardContent";
 
 
 
 const AdminDashboard = () => {
   const [user, setUser] = useState(null);
-  const [activeSection, setActiveSection] = useState("dashboard");
+  const [activeSection, setActiveSection] = useState("static");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -109,6 +111,16 @@ const AdminDashboard = () => {
         <ul className="space-y-4">
           <li
             className={`flex items-center gap-2 cursor-pointer ${
+              activeSection === "static"
+                ? "text-blue-600 font-semibold"
+                : "text-gray-700"
+            }`}
+            onClick={() => setActiveSection("static")}
+          >
+            <FaDatabase /> Static Data
+          </li>
+          <li
+            className={`flex items-center gap-2 cursor-pointer ${
               activeSection === "dashboard"
                 ? "text-blue-600 font-semibold"
                 : "text-gray-700"
@@ -127,6 +139,7 @@ const AdminDashboard = () => {
           >
             <FaUser /> Profile
           </li>
+          
           <li
             className={`flex items-center gap-2 cursor-pointer ${
               activeSection === "orders"
@@ -235,7 +248,7 @@ const AdminDashboard = () => {
 
       {/* Main Content */}
       <main className="flex-1 p-6">
-  {activeSection === "dashboard" && <DashboardContent user={user} token={token} />}
+  {activeSection === "dashboard" && <DashboardContent user={user} token={token} onLogout={handleLogout} />}
   {activeSection === "profile" && <EditProfile token={token} currentUser={user} />}
   {activeSection === "orders" && <OrdersAdmin token={token} />}
   {activeSection === "notifications" && <div>Notifications Content</div>}
@@ -247,6 +260,8 @@ const AdminDashboard = () => {
   {activeSection === "reviews" && <AdminReviews />}
   {activeSection === "users" && <UsersAdmin />}
   {activeSection === "payments" && <div><PaymentsAdmin token={token} /></div>}
+  {activeSection === "static" && <AdminDashboardContent user={user} token={token} />}
+
 
 </main>
 

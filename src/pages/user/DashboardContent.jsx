@@ -26,6 +26,7 @@ const DashboardContent = ({ user, loading, error, onLogout }) => {
       </div>
     );
   }
+  
 
   return (
     <div className="p-4 sm:p-6 max-w-5xl mx-auto">
