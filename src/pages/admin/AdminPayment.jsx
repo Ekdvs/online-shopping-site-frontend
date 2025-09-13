@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import SummaryApi from "../../common/SummaryApi";
 import toast from "react-hot-toast";
 import Axios from "../../utils/Axios";
+import Loader from "../../components/Loader";
 
 const PaymentsAdmin = () => {
   const [payments, setPayments] = useState([]);
@@ -105,7 +106,7 @@ const PaymentsAdmin = () => {
       </div>
 
       {loading ? (
-        <p className="text-gray-500">Loading payments...</p>
+       <Loader/>
       ) : filtered.length === 0 ? (
         <p className="text-gray-500">No payments found.</p>
       ) : (
@@ -131,7 +132,7 @@ const PaymentsAdmin = () => {
                       <p className="text-xs text-gray-500">{p.userId?.email}</p>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-gray-700 font-medium">${p.amount}</td>
+                  <td className="px-4 py-3 text-gray-700 font-medium">Rs/{p.amount}</td>
                   <td className="px-4 py-3">
                     <span
                       className={`px-2 py-1 text-xs font-semibold rounded-full ${
