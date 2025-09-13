@@ -1,8 +1,8 @@
 import ForgotPassword from "../pages/user/ForgotPassword";
 import ResetPassword from "../pages/user/ResetPassword";
 
-export const baseURL = "https://online-shoping-site-backend-1.onrender.com/";
-//export const baseURL="http://localhost:8080/";
+//export const baseURL = "https://online-shoping-site-backend-1.onrender.com/";
+export const baseURL="http://localhost:8080/";
 const SummaryApi={
     register:{
         url: "/api/user/register",
@@ -241,7 +241,12 @@ const SummaryApi={
      getPaymentReceipt: {
   url: (paymentIntentId) => `/api/payments/receipt/${paymentIntentId}`,
   method: "GET",
-}
+},
+getProductsBySubCategory: {
+    method: "get",
+    url: "/api/products/get", // frontend will append /:id
+  },
+
 
 
 

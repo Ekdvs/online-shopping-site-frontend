@@ -23,7 +23,7 @@ const ProductsGrid = ({ products }) => {
           const imageUrl = prod.image?.[0] || "/placeholder.png";
           const price = prod.price || 0;
           const discount = prod.discount || 0;
-          const finalPrice = discount > 0 ? price - discount : price;
+          const finalPrice = discount > 0 ? price + discount : price;
           const averageRating = Math.round(prod.averageRating || 0);
 
           return (
@@ -45,9 +45,9 @@ const ProductsGrid = ({ products }) => {
               </p>
 
               <div className="mt-1 flex items-center gap-2">
-                <p className="text-blue-600 font-bold">Rs:{finalPrice}</p>
+                <p className="text-blue-600 font-bold">Rs:{price}</p>
                 {discount > 0 && (
-                  <p className="text-red-500 text-xs line-through">${price}</p>
+                  <p className="text-red-500 text-xs line-through">Rs:{finalPrice}</p>
                 )}
               </div>
 

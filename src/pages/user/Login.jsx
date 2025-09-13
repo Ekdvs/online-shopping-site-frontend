@@ -9,18 +9,16 @@ import Loader from "../../components/Loader";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const redirectPath = location.state?.from?.pathname || "/dashboard";
+  const redirectPath = location.state?.from?.pathname || "/dashboard"; // default if no previous page
 
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = formData;
@@ -43,7 +41,7 @@ const Login = () => {
         localStorage.setItem("token", data.data.accessToken);
         toast.success(data.message || "Login successful!");
 
-        // Redirect based on role or previous page
+        // Redirect user to previous page or dashboard
         if (data.data.updateUser.role === "ADMIN") {
           navigate("/admin", { replace: true });
         } else {
@@ -61,13 +59,11 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-blue-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <div className="flex justify-center items-center min-h-screen bg-blue-50">
+      <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
         <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">
           Login
         </h2>
-
-        
 
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           {/* Email */}
@@ -104,13 +100,14 @@ const Login = () => {
           </div>
 
           {/* Forgot Password */}
-          <div className="text-right text-sm text-blue-600 hover:underline cursor-pointer">
-            <span onClick={() => navigate("/forgot-password")}>
-              Forgot Password?
-            </span>
+          <div
+            className="text-right text-sm text-blue-600 hover:underline cursor-pointer"
+            onClick={() => navigate("/forgot-password")}
+          >
+            Forgot Password?
           </div>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
@@ -120,7 +117,6 @@ const Login = () => {
           </button>
         </form>
 
-        {/* Register Link */}
         <p className="mt-4 text-center text-gray-600">
           Don't have an account?{" "}
           <Link to="/register" className="text-blue-500 hover:underline">

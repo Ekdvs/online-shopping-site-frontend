@@ -161,10 +161,8 @@ const ProductDetails = () => {
             </button>
           </div>
 
-          {/* User Address */}
-          <div className="mt-6">
-            <UserAddress />
-          </div>
+          
+          
         </div>
       </div>
 
