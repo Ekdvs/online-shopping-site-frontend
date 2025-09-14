@@ -56,6 +56,8 @@ const SummaryApi={
         url: "/api/products/getbyid/:id",
         method: "GET"
     },
+    searchProduct: { url: "/api/products/search", method: "GET" },
+  filterProducts: { url: "/api/products/filter", method: "GET" },
 
 
     //address
@@ -245,6 +247,22 @@ const SummaryApi={
 getProductsBySubCategory: {
     method: "get",
     url: "/api/products/get", // frontend will append /:id
+  },
+  getNotifications: {
+    method: "GET",
+    url: "/api/notifications",
+  },
+  markNotificationRead: {
+    method: "PATCH",
+    url: (id) => `/api/notifications/${id}/read`,
+  },
+  deleteNotification: {
+    method: "DELETE",
+    url: (id) => `/api/notifications/${id}`,
+  },
+  createNotification: {
+    method: "POST",
+    url: "/api/notifications",
   },
 
 

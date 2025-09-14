@@ -8,6 +8,7 @@ import HeroSection from "./HeroSection";
 import CategoriesSection from "./CategoriesSection";
 import ProductsGrid from "./ProductsGrid";
 import { Title } from "react-head";
+import ShopPage from "./ShopPage";
 
 
 
@@ -48,7 +49,7 @@ const Home = () => {
       <div className="p-6 max-w-7xl mx-auto">
         <HeroSection />
         <CategoriesSection />
-        <ProductsGrid products={products} />
+        <ShopPage />
       </div>
     </>
   );

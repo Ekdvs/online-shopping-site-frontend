@@ -29,6 +29,7 @@ import UsersAdmin from "./UsersAdmin";
 import PaymentsAdmin from "./AdminPayment";
 import { ReceiptPercentIcon } from "@heroicons/react/24/outline";
 import AdminDashboardContent from "./DashboardContent";
+import AdminNotifications from "./AdminNotifications";
 
 
 
@@ -40,12 +41,15 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  if(!token){
-    navigate("/login");
-  }
+  
 
   // 🔥 Fetch user
   useEffect(() => {
+
+    if(!token){
+    navigate("/login");
+  }
+
     const fetchUser = async () => {
       if (!token) {
         navigate("/login");
@@ -63,7 +67,12 @@ const AdminDashboard = () => {
         });
 
         if (data.success) {
-          setUser(data.data);
+          if (data.data.role !== "ADMIN") {
+            toast.error("Access denied! Admins only.");
+            navigate("/");
+          } else {
+            setUser(data.data);
+          }
         } else {
           toast.error(data.message || "Failed to load user data");
           setError(data.message || "Failed to load user data");
@@ -251,7 +260,7 @@ const AdminDashboard = () => {
   {activeSection === "dashboard" && <DashboardContent user={user} token={token} onLogout={handleLogout} />}
   {activeSection === "profile" && <EditProfile token={token} currentUser={user} />}
   {activeSection === "orders" && <OrdersAdmin token={token} />}
-  {activeSection === "notifications" && <div>Notifications Content</div>}
+  {activeSection === "notifications" && <AdminNotifications token={token} />}
   {activeSection === "settings" && <Settings token={token} currentUser={user} />}
   {activeSection === "categories" && <AdminCategories />} 
   {activeSection === "subcategories" && <AdminSubCategories/>}

@@ -20,6 +20,7 @@ import UserOrders from "./UserOrders";
 import UserReviews from "./Reviews";
 import PaymentHistory from "./PaymentHistory";
 import { ReceiptPercentIcon } from "@heroicons/react/24/solid";
+import Notifications from "./Notifications";
 
 const UserDashboard = () => {
   const [user, setUser] = useState(null);
@@ -186,7 +187,7 @@ const UserDashboard = () => {
   {activeSection === "dashboard" && <DashboardContent user={user} token={token} onLogout={handleLogout} />}
   {activeSection === "profile" && <EditProfile token={token} currentUser={user} />}
   {activeSection === "orders" && <div><UserOrders/></div>}
-  {activeSection === "notifications" && <div>Notifications Content</div>}
+  {activeSection === "notifications" && <Notifications token={token}/>}
   {activeSection === "settings" && <Settings token={token} currentUser={user} />}
   {activeSection === "cart" && <Cart token={token} currentUser={user} />}
   {activeSection === "rating" && <UserReviews token={token} currentUser={user} />}
