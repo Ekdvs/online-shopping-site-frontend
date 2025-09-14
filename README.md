@@ -2,8 +2,9 @@
 
 A modern, responsive frontend for an online shopping platform built with React and Vite.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https:https://online-shopping-site-frontend.vercel.app/)
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue)](https:https://github.com/Ekdvs/online-shopping-site-frontend)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://online-shopping-site-frontend.vercel.app/)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/Ekdvs/online-shopping-site-frontend)
+
 
 ## 📋 Table of Contents
 
