@@ -1,7 +1,7 @@
 import ForgotPassword from "../pages/user/ForgotPassword";
 import ResetPassword from "../pages/user/ResetPassword";
 
-export const baseURL = "https://online-shoping-site-backend-1.onrender.com/";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 //export const baseURL="http://localhost:8080/";
 const SummaryApi={
     register:{
