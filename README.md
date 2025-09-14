@@ -2,8 +2,8 @@
 
 A modern, responsive frontend for an online shopping platform built with React and Vite.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://your-deployed-app.vercel.app)
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/yourusername/your-repo)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https:https://online-shopping-site-frontend.vercel.app/)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue)](https:https://github.com/Ekdvs/online-shopping-site-frontend)
 
 ## 📋 Table of Contents
 
@@ -386,9 +386,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact & Support
 
-- **Project Link:** [https://github.com/yourusername/online-shopping-frontend](https://github.com/yourusername/online-shopping-frontend)
-- **Issues:** [Report a bug or request a feature](https://github.com/yourusername/online-shopping-frontend/issues)
-- **Email:** your.email@example.com
+- **Project Link:** [https://github.com/Ekdvs/online-shopping-site-frontend](https://github.com/Ekdvs/online-shopping-site-frontend)
+- **Live Demo:** [https://online-shopping-site-frontend.vercel.app](https://online-shopping-site-frontend.vercel.app)
+- **Issues:** [Report a bug or request a feature](https://github.com/Ekdvs/online-shopping-site-frontend/issues)
+- **Email:** ekdvsampath@gmail.com
 
 ---
 
