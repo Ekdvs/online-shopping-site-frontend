@@ -12,7 +12,6 @@ const SummaryApi={
         method: "POST",
     },
 
-
     verifyEmail: {
         url: "/api/user/verify-email",
         method: "POST",
