@@ -54,7 +54,7 @@ const Categories = () => {
               className="cursor-pointer bg-white rounded-2xl shadow-md hover:shadow-xl p-5 flex flex-col items-center justify-center transition-all duration-300 border border-gray-100 hover:border-blue-500 hover:scale-105 group"
             >
               {/* Category Image */}
-              <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 overflow-hidden border mb-3 rounded-xl">
+              <div className="w-50 h-80 sm:w-36 sm:h-36 md:w-32 md:h-32 overflow-hidden border mb-3 rounded-xl">
                 <img
                   src={cat.image || "https://via.placeholder.com/150"}
                   alt={cat.name}

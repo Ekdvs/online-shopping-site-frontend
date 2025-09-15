@@ -1,5 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { ShoppingCart, Menu, X, User, LogIn, UserPlus } from "lucide-react";
+// src/components/Navbar.jsx
+import React, { useState, useEffect, useRef } from "react";
+import {
+  ShoppingCart,
+  Menu,
+  X,
+  User,
+  LogIn,
+  UserPlus,
+  LogOut,
+  Search,
+} from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Axios from "../utils/Axios";
 import SummaryApi from "../common/SummaryApi";
@@ -8,159 +18,268 @@ const Navbar = ({ searchKeyword, setSearchKeyword }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [mobileSearch, setMobileSearch] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [hidden, setHidden] = useState(false);
+
   const token = localStorage.getItem("token");
+  const userName = localStorage.getItem("userName") || "User";
   const navigate = useNavigate();
+  const searchInputRef = useRef(null);
 
-  
-
-// Fetch cart count
-const fetchCartCount = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.warn("No token found, skipping cart fetch");
-      setCartCount(0); // ensure UI shows empty cart
-      return;
-    }
-
-    const { data } = await Axios({
-      method: SummaryApi.getCart.method,
-      url: SummaryApi.getCart.url,
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (data.success && Array.isArray(data.data)) {
-      setCartCount(data.data.length);
-    } else {
+  // Fetch cart count
+  const fetchCartCount = async () => {
+    try {
+      if (!token) {
+        setCartCount(0);
+        return;
+      }
+      const { data } = await Axios({
+        method: SummaryApi.getCart.method,
+        url: SummaryApi.getCart.url,
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setCartCount(data.success && Array.isArray(data.data) ? data.data.length : 0);
+    } catch (error) {
+      console.error("Failed to fetch cart count:", error);
       setCartCount(0);
     }
-  } catch (error) {
-    console.error("Failed to fetch cart count:", error);
-    setCartCount(0); // fallback on error
-  }
-};
+  };
 
-useEffect(() => {
-  fetchCartCount();
-}, []);
-
-
-
-  // Scroll effect
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    fetchCartCount();
   }, []);
 
-  // Handle search submit
+  // Scroll effect for sticky auto-hide
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+      if (window.scrollY > lastScrollY && window.scrollY > 100) {
+        setHidden(true); // scrolling down
+      } else {
+        setHidden(false); // scrolling up
+      }
+      setLastScrollY(window.scrollY);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
+  // Focus mobile search input
+  useEffect(() => {
+    if (mobileSearch && searchInputRef.current) searchInputRef.current.focus();
+  }, [mobileSearch]);
+
+  // Search handler
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchKeyword.trim()) navigate("/shop");
-    if (isOpen) setIsOpen(false); // Close mobile menu after search
+    setMobileSearch(false);
+    if (isOpen) setIsOpen(false);
+  };
+
+  // Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userName");
+    navigate("/");
+    setShowDropdown(false);
   };
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-white/80 backdrop-blur-md shadow-lg" : "bg-gradient-to-r from-[#1E3A8A] via-[#00B5D8] to-[#8B5CF6]"}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          {/* Logo */}
-          <div className={`flex-shrink-0 flex items-center text-2xl font-extrabold tracking-wide transition duration-300 ${scrolled ? "text-[#1E3A8A]" : "text-white"}`}>
-            ShopEase
-          </div>
+    <div>
+      {/* Header */}
+      <header
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 transform ${
+          hidden ? "-translate-y-full" : "translate-y-0"
+        } ${scrolled ? "bg-white/90 backdrop-blur-md shadow-md" : "bg-gradient-to-r from-[#1E3A8A] via-[#00B5D8] to-[#8B5CF6]"}`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            {/* Logo */}
+            <div
+              className={`text-2xl font-extrabold tracking-wide transition duration-300 ${
+                scrolled ? "text-[#1E3A8A]" : "text-white"
+              } cursor-pointer`}
+              onClick={() => navigate("/")}
+            >
+              ShopEase
+            </div>
 
-          {/* Search (desktop) */}
-          <form onSubmit={handleSearch} className="hidden md:flex items-center flex-1 mx-4">
-            <input
-              type="text"
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-              placeholder="Search for products..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-800 font-medium focus:outline-none focus:ring-2 focus:ring-[#00B5D8] shadow-sm placeholder-gray-400 bg-white"
-            />
-          </form>
+            {/* Desktop Search */}
+            <form onSubmit={handleSearch} className="hidden md:flex items-center flex-1 mx-4">
+              <input
+                type="text"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+                placeholder="Search products..."
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-800 font-medium focus:outline-none focus:ring-2 focus:ring-[#00B5D8] shadow-sm placeholder-gray-400 bg-white"
+              />
+            </form>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-6">
-            {["Home", "Shop", "About", "Contact"].map((item) => (
-              <NavLink
-                key={item}
-                to={`/${item.toLowerCase()}`}
-                className={({ isActive }) =>
-                  `transition duration-300 px-3 py-2 rounded-md font-bold ${isActive ? "text-white bg-[#E0F7FA]" : "text-white hover:text-[#00B5D8] hover:bg-white/20"}`
-                }
-              >
-                {item}
+            {/* Desktop Menu */}
+            <div className="hidden md:flex items-center space-x-4 relative">
+              {["Home", "Shop", "About", "Contact"].map((item) => (
+                <NavLink
+                  key={item}
+                  to={`/${item.toLowerCase()}`}
+                  className={({ isActive }) =>
+                    `transition duration-300 px-3 py-2 rounded-md font-bold ${
+                      isActive ? "text-white bg-[#E0F7FA]" : "text-white hover:text-[#00B5D8] hover:bg-white/20"
+                    }`
+                  }
+                >
+                  {item}
+                </NavLink>
+              ))}
+
+              {/* Cart */}
+              <NavLink to="/cart" className="relative group">
+                <ShoppingCart className="w-6 h-6 text-white group-hover:text-[#00B5D8] transition duration-300" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-[#FB923C] text-black text-xs rounded-full px-1 font-bold">
+                    {cartCount}
+                  </span>
+                )}
               </NavLink>
-            ))}
 
-            {/* Cart */}
-            <NavLink to="/cart" className="relative group">
-              <ShoppingCart className="w-6 h-6 text-white group-hover:text-[#00B5D8] transition duration-300" />
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#FB923C] text-black text-xs rounded-full px-1 font-bold">{cartCount}</span>
+              {/* User Dropdown */}
+              {token ? (
+                <div className="relative">
+                  <button
+                    className="flex items-center text-white px-3 py-2 rounded-md hover:bg-white/20 transition"
+                    onClick={() => setShowDropdown(!showDropdown)}
+                  >
+                    <User className="w-6 h-6 mr-1" /> {userName}
+                  </button>
+                  {showDropdown && (
+                    <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md overflow-hidden z-50">
+                      <NavLink
+                        to="/dashboard"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                        onClick={() => setShowDropdown(false)}
+                      >
+                        Dashboard
+                      </NavLink>
+                      <NavLink
+                        to="/orders"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                        onClick={() => setShowDropdown(false)}
+                      >
+                        Orders
+                      </NavLink>
+                      <button
+                        className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                        onClick={handleLogout}
+                      >
+                        <LogOut className="w-4 h-4" /> Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <NavLink
+                    to="/login"
+                    className="px-4 py-2 bg-[#FB923C] text-black rounded-lg font-medium hover:bg-[#F97316] transition duration-300 shadow flex items-center gap-1"
+                  >
+                    <LogIn size={18} /> Login
+                  </NavLink>
+                  <NavLink
+                    to="/register"
+                    className="px-4 py-2 bg-[#00B5D8] text-white rounded-lg font-medium hover:bg-[#008FA3] transition duration-300 shadow flex items-center gap-1"
+                  >
+                    <UserPlus size={18} /> Register
+                  </NavLink>
+                </>
               )}
-            </NavLink>
 
-            {/* Account */}
-            <NavLink to="/dashbord" className="group">
-              <User className="w-6 h-6 text-white group-hover:text-[#00B5D8] transition duration-300" />
-            </NavLink>
+              {/* Mobile Search Icon */}
+              <button
+                className="md:hidden ml-2 text-white"
+                onClick={() => setMobileSearch(true)}
+              >
+                <Search className="w-6 h-6" />
+              </button>
+            </div>
 
-            {/* Login / Register */}
-            <NavLink to="/login" className="px-4 py-2 bg-[#FB923C] text-black rounded-lg font-medium hover:bg-[#F97316] transition duration-300 shadow flex items-center gap-1">
-              <LogIn size={18} /> Login
-            </NavLink>
-            <NavLink to="/register" className="px-4 py-2 bg-[#00B5D8] text-white rounded-lg font-medium hover:bg-[#008FA3] transition duration-300 shadow flex items-center gap-1">
-              <UserPlus size={18} /> Register
-            </NavLink>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
-            <button onClick={() => setIsOpen(!isOpen)} className={`transition duration-300 ${scrolled ? "text-gray-800 hover:text-[#00B5D8]" : "text-white hover:text-[#00B5D8]"}`}>
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            {/* Mobile Menu Button */}
+            <div className="md:hidden flex items-center">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className={`transition duration-300 ${
+                  scrolled ? "text-gray-800 hover:text-[#00B5D8]" : "text-white hover:text-[#00B5D8]"
+                }`}
+              >
+                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </header>
 
       {/* Mobile Menu */}
-      <div className={`md:hidden bg-white shadow-lg overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"}`}>
+      <div
+        className={`md:hidden bg-white shadow-lg overflow-hidden transition-all duration-500 ease-in-out ${
+          isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
         <div className="px-4 py-3 space-y-3">
-          <form onSubmit={handleSearch}>
-            <input
-              type="text"
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-              placeholder="Search for products..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00B5D8] shadow-sm"
-            />
-          </form>
-
           {["Home", "Shop", "About", "Contact"].map((item) => (
             <NavLink
               key={item}
               to={`/${item.toLowerCase()}`}
-              className={({ isActive }) => `block px-3 py-2 rounded-md transition duration-300 font-bold ${isActive ? "bg-[#00B5D8] text-white" : "text-gray-700 hover:bg-[#E0F7FA] hover:text-[#00B5D8]"}`}
+              className={({ isActive }) =>
+                `block px-3 py-2 rounded-md transition duration-300 font-bold ${
+                  isActive ? "bg-[#00B5D8] text-white" : "text-gray-700 hover:bg-[#E0F7FA] hover:text-[#00B5D8]"
+                }`
+              }
             >
               {item}
             </NavLink>
           ))}
 
-          {/* Mobile Cart */}
-          <NavLink to="/cart" className="flex items-center text-gray-700 hover:text-[#00B5D8] transition duration-300">
+          <NavLink
+            to="/cart"
+            className="flex items-center text-gray-700 hover:text-[#00B5D8] transition duration-300"
+          >
             <ShoppingCart className="w-5 h-5 mr-2" /> Cart
-            {cartCount > 0 && <span className="ml-2 bg-[#FB923C] text-black text-xs rounded-full px-2 font-bold">{cartCount}</span>}
-          </NavLink>
-
-          {/* Mobile Account */}
-          <NavLink to="/account" className="flex items-center text-gray-700 hover:text-[#00B5D8] transition duration-300">
-            <User className="w-5 h-5 mr-2" /> Account
+            {cartCount > 0 && (
+              <span className="ml-2 bg-[#FB923C] text-black text-xs rounded-full px-2 font-bold">
+                {cartCount}
+              </span>
+            )}
           </NavLink>
         </div>
       </div>
-    </header>
+
+      {/* Mobile Full-Screen Search Overlay */}
+      {mobileSearch && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center px-4">
+          <form
+            onSubmit={handleSearch}
+            className="w-full max-w-md flex items-center bg-white rounded-lg overflow-hidden shadow-lg"
+          >
+            <input
+              ref={searchInputRef}
+              type="text"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+              placeholder="Search for products..."
+              className="w-full px-4 py-3 outline-none text-gray-800"
+            />
+            <button
+              type="button"
+              onClick={() => setMobileSearch(false)}
+              className="px-4 text-gray-700 hover:text-gray-900 transition"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </form>
+        </div>
+      )}
+    </div>
   );
 };
 

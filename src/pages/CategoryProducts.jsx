@@ -51,24 +51,27 @@ const CategoryProducts = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">{category?.name}</h1>
+    <div className="p-4 md:p-6 max-w-7xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">{category?.name}</h1>
 
       {/* Subcategories */}
       {subCategories.length > 0 ? (
-        <div className="grid grid-cols-3 sm:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
           {subCategories.map((sub) => (
             <div
               key={sub._id}
               onClick={() => navigate(`/subcategory/${sub._id}`)} // ✅ Navigate to subcategory page
               className="cursor-pointer p-4 rounded-lg shadow text-center transition bg-gray-100 hover:shadow-md hover:bg-blue-100"
             >
-              <img
-                src={sub.image || "https://via.placeholder.com/100"}
-                alt={sub.name}
-                className="w-16 h-16 mx-auto mb-2 object-cover rounded"
-              />
-              <p className="text-sm font-medium">{sub.name}</p>
+             <div className="w-40 h-40 sm:w-48 sm:h-48 md:w-32 md:h-32 mx-auto mb-2 overflow-hidden rounded-lg">
+                <img
+                  src={sub.image || "https://via.placeholder.com/150"}
+                  alt={sub.name}
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                />
+              </div>
+
+              <p className="text-sm md:text-base font-medium">{sub.name}</p>
             </div>
           ))}
         </div>

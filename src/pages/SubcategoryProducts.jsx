@@ -15,12 +15,11 @@ const SubcategoryProducts = () => {
   useEffect(() => {
     const fetchSubCategoryData = async () => {
       try {
-        
         // Get subcategory details
         const { data: subCatRes } = await Axios.get(`${SummaryApi.getSubCategoryById.url}/${id}`);
         if (!subCatRes.success) {
           toast.error(subCatRes.message);
-          setLoading(true);
+          setLoading(false);
           return;
         }
         setSubCategory(subCatRes.data);
@@ -47,33 +46,49 @@ const SubcategoryProducts = () => {
   if (loading) return <Loader />;
 
   if (!subCategory)
-    return <p className="text-center text-red-500 text-lg py-10 font-semibold">❌ Subcategory not found</p>;
+    return (
+      <p className="text-center text-red-500 text-lg py-10 font-semibold">
+        ❌ Subcategory not found
+      </p>
+    );
 
   if (products.length === 0)
-    return <p className="text-center text-gray-600 text-lg py-10 font-medium">No products in <span className="font-bold">{subCategory.name}</span></p>;
+    return (
+      <p className="text-center text-gray-600 text-lg py-10 font-medium">
+        No products in <span className="font-bold">{subCategory.name}</span>
+      </p>
+    );
 
   return (
-    <div className="p-6">
-      <h2 className="text-3xl font-bold mb-6 text-gray-800 border-b pb-2">{subCategory.name} Products</h2>
-      
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+    <div className="p-4 md:p-6 max-w-7xl mx-auto">
+      <h2 className="text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+        {subCategory.name} Products
+      </h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {products.map((prod) => (
           <div
             key={prod._id}
             onClick={() => navigate(`/product/${prod._id}`)}
-            className="bg-white rounded-xl shadow-lg hover:shadow-xl cursor-pointer transition transform hover:-translate-y-1 hover:scale-105 p-4 flex flex-col"
+            className="bg-white rounded-xl shadow-md hover:shadow-xl cursor-pointer transition transform hover:-translate-y-1 hover:scale-105 p-4 flex flex-col"
           >
-            <div className="h-40 w-full mb-3 flex items-center justify-center overflow-hidden rounded-lg bg-gray-50">
+            <div className="w-full h-48 sm:h-56 md:h-48 lg:h-56 overflow-hidden rounded-lg bg-gray-50 flex items-center justify-center mb-3">
               <img
                 src={prod.image?.[0] || "/placeholder.png"}
                 alt={prod.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
               />
             </div>
-            <h3 className="font-semibold text-sm md:text-base text-gray-700 truncate mb-1">{prod.name}</h3>
-            <p className="text-blue-600 font-bold text-sm md:text-base">Rs: {prod.price.toFixed(2)}</p>
+            <h3 className="font-semibold text-sm md:text-base text-gray-700 truncate mb-1">
+              {prod.name}
+            </h3>
+            <p className="text-blue-600 font-bold text-sm md:text-base">
+              Rs: {prod.price.toFixed(2)}
+            </p>
             {prod.discount ? (
-              <p className="text-red-500 text-xs mt-1 line-through">Rs: {(prod.price + prod.discount).toFixed(2)}</p>
+              <p className="text-red-500 text-xs mt-1 line-through">
+                Rs: {(prod.price + prod.discount).toFixed(2)}
+              </p>
             ) : null}
           </div>
         ))}
