@@ -1,15 +1,6 @@
 // src/components/Navbar.jsx
 import React, { useState, useEffect, useRef } from "react";
-import {
-  ShoppingCart,
-  Menu,
-  X,
-  User,
-  LogIn,
-  UserPlus,
-  LogOut,
-  Search,
-} from "lucide-react";
+import { ShoppingCart, Menu, X, LogIn, UserPlus, Search } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Axios from "../utils/Axios";
 import SummaryApi from "../common/SummaryApi";
@@ -18,13 +9,11 @@ const Navbar = ({ searchKeyword, setSearchKeyword }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [cartCount, setCartCount] = useState(0);
-  const [showDropdown, setShowDropdown] = useState(false);
   const [mobileSearch, setMobileSearch] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [hidden, setHidden] = useState(false);
 
   const token = localStorage.getItem("token");
-  const userName = localStorage.getItem("userName") || "User";
   const navigate = useNavigate();
   const searchInputRef = useRef(null);
 
@@ -79,21 +68,17 @@ const Navbar = ({ searchKeyword, setSearchKeyword }) => {
     if (isOpen) setIsOpen(false);
   };
 
-  // Logout handler
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userName");
-    navigate("/");
-    setShowDropdown(false);
-  };
-
   return (
     <div>
       {/* Header */}
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 transform ${
           hidden ? "-translate-y-full" : "translate-y-0"
-        } ${scrolled ? "bg-white/90 backdrop-blur-md shadow-md" : "bg-gradient-to-r from-[#1E3A8A] via-[#00B5D8] to-[#8B5CF6]"}`}
+        } ${
+          scrolled
+            ? "bg-white/90 backdrop-blur-md shadow-md"
+            : "bg-gradient-to-r from-[#1E3A8A] via-[#00B5D8] to-[#8B5CF6]"
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
@@ -119,14 +104,16 @@ const Navbar = ({ searchKeyword, setSearchKeyword }) => {
             </form>
 
             {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-4 relative">
+            <div className="hidden md:flex items-center space-x-4">
               {["Home", "Shop", "About", "Contact"].map((item) => (
                 <NavLink
                   key={item}
                   to={`/${item.toLowerCase()}`}
                   className={({ isActive }) =>
                     `transition duration-300 px-3 py-2 rounded-md font-bold ${
-                      isActive ? "text-white bg-[#E0F7FA]" : "text-white hover:text-[#00B5D8] hover:bg-white/20"
+                      isActive
+                        ? "text-white bg-[#E0F7FA]"
+                        : "text-white hover:text-[#00B5D8] hover:bg-white/20"
                     }`
                   }
                 >
@@ -144,62 +131,22 @@ const Navbar = ({ searchKeyword, setSearchKeyword }) => {
                 )}
               </NavLink>
 
-              {/* User Dropdown */}
-              {token ? (
-                <div className="relative">
-                  <button
-                    className="flex items-center text-white px-3 py-2 rounded-md hover:bg-white/20 transition"
-                    onClick={() => setShowDropdown(!showDropdown)}
-                  >
-                    <User className="w-6 h-6 mr-1" /> {userName}
-                  </button>
-                  {showDropdown && (
-                    <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md overflow-hidden z-50">
-                      <NavLink
-                        to="/dashboard"
-                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                        onClick={() => setShowDropdown(false)}
-                      >
-                        Dashboard
-                      </NavLink>
-                      <NavLink
-                        to="/orders"
-                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                        onClick={() => setShowDropdown(false)}
-                      >
-                        Orders
-                      </NavLink>
-                      <button
-                        className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center gap-2"
-                        onClick={handleLogout}
-                      >
-                        <LogOut className="w-4 h-4" /> Logout
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <>
-                  <NavLink
-                    to="/login"
-                    className="px-4 py-2 bg-[#FB923C] text-black rounded-lg font-medium hover:bg-[#F97316] transition duration-300 shadow flex items-center gap-1"
-                  >
-                    <LogIn size={18} /> Login
-                  </NavLink>
-                  <NavLink
-                    to="/register"
-                    className="px-4 py-2 bg-[#00B5D8] text-white rounded-lg font-medium hover:bg-[#008FA3] transition duration-300 shadow flex items-center gap-1"
-                  >
-                    <UserPlus size={18} /> Register
-                  </NavLink>
-                </>
-              )}
+              {/* Always show Login/Register */}
+              <NavLink
+                to="/login"
+                className="px-4 py-2 bg-[#FB923C] text-black rounded-lg font-medium hover:bg-[#F97316] transition duration-300 shadow flex items-center gap-1"
+              >
+                <LogIn size={18} /> Login
+              </NavLink>
+              <NavLink
+                to="/register"
+                className="px-4 py-2 bg-[#00B5D8] text-white rounded-lg font-medium hover:bg-[#008FA3] transition duration-300 shadow flex items-center gap-1"
+              >
+                <UserPlus size={18} /> Register
+              </NavLink>
 
               {/* Mobile Search Icon */}
-              <button
-                className="md:hidden ml-2 text-white"
-                onClick={() => setMobileSearch(true)}
-              >
+              <button className="md:hidden ml-2 text-white" onClick={() => setMobileSearch(true)}>
                 <Search className="w-6 h-6" />
               </button>
             </div>
@@ -232,7 +179,9 @@ const Navbar = ({ searchKeyword, setSearchKeyword }) => {
               to={`/${item.toLowerCase()}`}
               className={({ isActive }) =>
                 `block px-3 py-2 rounded-md transition duration-300 font-bold ${
-                  isActive ? "bg-[#00B5D8] text-white" : "text-gray-700 hover:bg-[#E0F7FA] hover:text-[#00B5D8]"
+                  isActive
+                    ? "bg-[#00B5D8] text-white"
+                    : "text-gray-700 hover:bg-[#E0F7FA] hover:text-[#00B5D8]"
                 }`
               }
             >
@@ -250,6 +199,20 @@ const Navbar = ({ searchKeyword, setSearchKeyword }) => {
                 {cartCount}
               </span>
             )}
+          </NavLink>
+
+          {/* Mobile Login/Register */}
+          <NavLink
+            to="/login"
+            className="block w-full text-center px-4 py-2 bg-[#FB923C] text-black rounded-lg font-medium hover:bg-[#F97316] transition duration-300"
+          >
+            Login
+          </NavLink>
+          <NavLink
+            to="/register"
+            className="block w-full text-center px-4 py-2 bg-[#00B5D8] text-white rounded-lg font-medium hover:bg-[#008FA3] transition duration-300"
+          >
+            Register
           </NavLink>
         </div>
       </div>
