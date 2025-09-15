@@ -71,7 +71,7 @@ const OrderSuccess = () => {
           Go Home
         </button>
         <button
-          onClick={() => navigate(`/ordershow/${orderData._id}`, { state: { orderData } })}
+          onClick={() => navigate(`/ordershow/${orderData.orderId}`, { state: { orderData } })}
           className=" py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold shadow-md hover:from-blue-600 hover:to-blue-500 active:scale-95 transition-all duration-200"
         >
           View Order
