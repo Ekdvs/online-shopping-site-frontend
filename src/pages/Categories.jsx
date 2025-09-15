@@ -46,7 +46,7 @@ const Categories = () => {
       {categories.length === 0 ? (
         <p className="text-gray-600">No categories found.</p>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
           {categories.map((cat) => (
             <div
               key={cat._id}
@@ -54,7 +54,7 @@ const Categories = () => {
               className="cursor-pointer bg-white rounded-2xl shadow-md hover:shadow-xl p-5 flex flex-col items-center justify-center transition-all duration-300 border border-gray-100 hover:border-blue-500 hover:scale-105 group"
             >
               {/* Category Image */}
-              <div className="w-30 h-30  overflow-hidden border mb-3">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 overflow-hidden border mb-3 rounded-xl">
                 <img
                   src={cat.image || "https://via.placeholder.com/150"}
                   alt={cat.name}

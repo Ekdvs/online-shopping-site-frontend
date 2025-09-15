@@ -103,7 +103,7 @@ useEffect(() => {
             </NavLink>
 
             {/* Account */}
-            <NavLink to="/account" className="group">
+            <NavLink to="/dashbord" className="group">
               <User className="w-6 h-6 text-white group-hover:text-[#00B5D8] transition duration-300" />
             </NavLink>
 
