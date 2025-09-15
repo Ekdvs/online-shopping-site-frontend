@@ -166,6 +166,12 @@ const ProductDetails = () => {
         </div>
       </div>
 
+      {/* Address Selection */}
+      <div className="border p-4 rounded-lg shadow-sm bg-white">
+        <UserAddress onSelect={setSelectedAddress} />
+        {!selectedAddress && <p className="mt-2 text-red-500 text-sm">Please select a delivery address to proceed.</p>}
+      </div>
+
       {/* Reviews Section */}
       <div className="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition-shadow">
         <ReviewsSection productId={id} product={product} />
