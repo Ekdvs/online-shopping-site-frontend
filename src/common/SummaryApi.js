@@ -1,8 +1,8 @@
 import ForgotPassword from "../pages/user/ForgotPassword";
 import ResetPassword from "../pages/user/ResetPassword";
 
-// exportconst baseURL = import.meta.env.VITE_API_BASE_URL;
-export const baseURL="http://localhost:8080/";
+export const baseURL = import.meta.env.VITE_API_BASE_URL;
+//export const baseURL="http://localhost:8080/";
 const SummaryApi={
     register:{
         url: "/api/user/register",
