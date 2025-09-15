@@ -54,73 +54,76 @@ const PaymentForm = () => {
   }, [order, token]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!stripe || !elements || !clientSecret) return;
-    setLoading(true);
+  e.preventDefault();
+  if (!stripe || !elements || !clientSecret) return;
+  setLoading(true);
 
-    try {
-      const cardElement = elements.getElement(CardElement);
-      if (!cardElement) return;
+  try {
+    const cardElement = elements.getElement(CardElement);
+    if (!cardElement) return;
 
-      const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: cardElement,
-          billing_details: {
-            email: order?.userEmail || "",
-            name: order?.userName || "Customer",
-          },
+    const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: {
+          email: order?.userEmail || "",
+          name: order?.userName || "Customer",
         },
-      });
+      },
+    });
 
-      if (error) {
-        toast.error(error.message || "Payment failed");
-        setLoading(false);
-        return;
+    if (error) {
+      toast.error(error.message || "Payment failed");
+      setLoading(false);
+      return;
+    }
+
+    if (paymentIntent?.status === "succeeded") {
+      // Update order status
+      await Axios.put(
+        SummaryApi.updateOrder.url(order._id),
+        {
+          delivery_status: "pending",
+          payment_status: "completed",
+          payment_id: paymentIntent.id,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      // Poll backend until receipt_url is available
+      let receipt = null;
+      for (let i = 0; i < 10; i++) { // poll 10 times
+        try {
+          const res = await Axios.get(
+            SummaryApi.getPaymentReceipt.url(paymentIntent.id),
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          receipt = res.data?.receipt_url;
+          if (receipt) break;
+        } catch (err) {
+          console.error("Error fetching receipt:", err);
+        }
+        await new Promise((r) => setTimeout(r, 1000)); // wait 1s
       }
 
-      if (paymentIntent?.status === "succeeded") {
-        // Update order status
-        await Axios.put(
-          SummaryApi.updateOrder.url(order._id),
-          {
-            delivery_status: "pending",
-            payment_status: "completed",
-            payment_id: paymentIntent.id,
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-
-        // Poll backend until receipt_url is available
-        const fetchReceipt = async () => {
-          let receipt = null;
-          for (let i = 0; i < 10; i++) { // poll 10 times
-            try {
-              const res = await Axios.get(
-                SummaryApi.getPaymentReceipt.url(paymentIntent.id),
-                { headers: { Authorization: `Bearer ${token}` } }
-              );
-              receipt = res.data?.receipt_url;
-              if (receipt) break;
-            } catch (err) {
-              console.error("Error fetching receipt:", err);
-            }
-            await new Promise((r) => setTimeout(r, 1000)); // wait 1s
-          }
-          setReceiptUrl(receipt);
-        };
-
-        fetchReceipt();
+      if (receipt) {
+        setReceiptUrl(receipt);
         toast.success("Payment successful 🎉");
       } else {
-        toast.error(`Payment status: ${paymentIntent?.status}`);
+        toast.warning("Payment succeeded but receipt not available yet.");
       }
-    } catch (err) {
-      console.error(err);
-      toast.error("Unexpected error. Please try again.");
-    } finally {
-      setLoading(false);
+
+    } else {
+      toast.error(`Payment status: ${paymentIntent?.status}`);
     }
-  };
+  } catch (err) {
+    console.error(err);
+    toast.error("Unexpected error. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   if (!clientSecret) {
     return (
