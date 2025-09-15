@@ -1,6 +1,5 @@
 import ForgotPassword from "../pages/user/ForgotPassword";
 import ResetPassword from "../pages/user/ResetPassword";
-
 export const baseURL = import.meta.env.VITE_API_BASE_URL;
 //export const baseURL="http://localhost:8080/";
 const SummaryApi={
