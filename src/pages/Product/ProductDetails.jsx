@@ -7,7 +7,7 @@ import Loader from "../../components/Loader";
 import ImageGallery from "./ImageGallery";
 import Quantity from "./Quantity";
 import StickyMobileBar from "./StickyMobileBar";
-import UserAddress from "./UserAddress";
+import UserAddress from './UserAddress'
 import ReviewsSection from "./ReviewsSection";
 import AddToCartButton from "./AddToCartButton";
 import BuyNowButton from "./BuyNowButton";
