@@ -20,6 +20,7 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const token = localStorage.getItem("token");
+  const [selectedAddress,setSelectedAddress ]=useState('')
 
   if(!token) {
     toast.error("Please login to view product details");
