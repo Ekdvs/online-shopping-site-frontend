@@ -92,7 +92,12 @@ const router = createBrowserRouter([
       },
 
       // Public/Admin Routes
-      { path: "/admin", element: <AdminDashboard /> },
+            { path: "/admin",
+        element: (
+          <PrivateRoute>
+            <AdminDashboard />
+          </PrivateRoute>
+        ), },
       { path: "/category/:name", element: <CategoryProducts /> },
       { path: "/subcategory/:id", element: <SubcategoryProducts /> },
       { path: "/cart", element: <Cart /> },

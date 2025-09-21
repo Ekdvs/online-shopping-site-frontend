@@ -46,9 +46,7 @@ const AdminDashboard = () => {
   // 🔥 Fetch user
   useEffect(() => {
 
-    if(!token){
-    navigate("/login");
-  }
+    
 
     const fetchUser = async () => {
       if (!token) {
