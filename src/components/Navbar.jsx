@@ -1,6 +1,6 @@
 // src/components/Navbar.jsx
 import React, { useState, useEffect, useRef } from "react";
-import { ShoppingCart, Menu, X, LogIn, UserPlus, Search } from "lucide-react";
+import { ShoppingCart, Menu, X, LogIn, UserPlus, Search, User } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Axios from "../utils/Axios";
 import SummaryApi from "../common/SummaryApi";
@@ -131,6 +131,11 @@ const Navbar = ({ searchKeyword, setSearchKeyword }) => {
                 )}
               </NavLink>
 
+              {/*account*/}
+              <NavLink to="/dashboard" className="relative group">
+              <User className="w-6 h-6 text-white group-hover:text-[#00B5D8] transition duration-300" />
+              </NavLink>
+
               {/* Always show Login/Register */}
               <NavLink
                 to="/login"
@@ -200,6 +205,15 @@ const Navbar = ({ searchKeyword, setSearchKeyword }) => {
               </span>
             )}
           </NavLink>
+
+          <NavLink 
+          to='/dashboard'
+          className="flex items-center text-gray-700 hover:text-[#00B5D8] transition duration-300"
+          >
+          <User  className="w-5 h-5 mr-2" /> Account
+          
+          </NavLink>
+
 
           {/* Mobile Login/Register */}
           <NavLink
