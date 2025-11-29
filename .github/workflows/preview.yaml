@@ -2,6 +2,10 @@ name: Vercel Preview Deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  VITE_STRIPE_PUBLIC_KEY: ${{ secrets.VITE_STRIPE_PUBLIC_KEY }}
+  VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+  VITE_API_WS_URL: ${{ secrets.VITE_API_WS_URL }}
 on:
   push:
     branches:
@@ -10,12 +14,27 @@ jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Pull Vercel Environment Variables
+        run: |
+          vercel pull --yes --environment=preview --token=$VERCEL_TOKEN
+        shell: bash
+
       - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          # Write GitHub secrets into .env.preview for build
+          echo "VITE_STRIPE_PUBLIC_KEY=$VITE_STRIPE_PUBLIC_KEY" >> .env.preview
+          echo "VITE_API_BASE_URL=$VITE_API_BASE_URL" >> .env.preview
+          echo "VITE_API_WS_URL=$VITE_API_WS_URL" >> .env.preview
+          vercel build --token=$VERCEL_TOKEN
+        shell: bash
+
+      - name: Deploy to Vercel Preview
+        run: |
+          vercel deploy --prebuilt --token=$VERCEL_TOKEN
+        shell: bash
