@@ -64,15 +64,15 @@ const Cart = () => {
     }
   };
 
-  // ✅ Navigate to Checkout with cart data
   const handleCheckout = () => {
-    if (!cartItems.length) return toast.error("Your cart is empty!");
-    
+    const validItems = cartItems.filter(c => c.productId);
+    if (!validItems.length) return toast.error("Your cart is empty!");
+
     const orderData = {
-      items: cartItems.map(c => ({
+      items: validItems.map(c => ({
         _id: c._id,
         name: c.productId.name,
-        image: c.productId.image?.[0],
+        image: c.productId.image?.[0] || "/placeholder.png",
         price: c.productId.price,
         quantity: c.quantity,
       })),
@@ -108,17 +108,29 @@ const Cart = () => {
           <div className="lg:col-span-2 space-y-4">
             {cartItems.map(item => (
               <div key={item._id} className="flex items-center bg-white shadow p-4 rounded-lg">
-                <img src={item.productId.image?.[0]} alt={item.productId.name} className="w-20 h-20 object-cover rounded"/>
-                <div className="flex-1 ml-4">
-                  <h3 className="font-semibold">{item.productId.name}</h3>
-                  <p className="text-gray-500">Rs: {item.productId.price.toFixed(2)}</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <button onClick={() => updateQuantity(item._id, item.quantity - 1)} className="px-2 py-1 bg-gray-200 rounded">-</button>
-                  <span>{item.quantity}</span>
-                  <button onClick={() => updateQuantity(item._id, item.quantity + 1)} className="px-2 py-1 bg-gray-200 rounded">+</button>
-                </div>
-                <button onClick={() => deleteItem(item._id)} className="ml-4 text-red-500 hover:text-red-700">🗑</button>
+                {item.productId ? (
+                  <>
+                    <img
+                      src={item.productId.image?.[0] || "/placeholder.png"}
+                      alt={item.productId.name || "Product"}
+                      className="w-20 h-20 object-cover rounded"
+                    />
+                    <div className="flex-1 ml-4">
+                      <h3 className="font-semibold">{item.productId.name}</h3>
+                      <p className="text-gray-500">
+                        Rs: {item.productId.price.toFixed(2)}
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <button onClick={() => updateQuantity(item._id, item.quantity - 1)} className="px-2 py-1 bg-gray-200 rounded">-</button>
+                      <span>{item.quantity}</span>
+                      <button onClick={() => updateQuantity(item._id, item.quantity + 1)} className="px-2 py-1 bg-gray-200 rounded">+</button>
+                    </div>
+                    <button onClick={() => deleteItem(item._id)} className="ml-4 text-red-500 hover:text-red-700">🗑</button>
+                  </>
+                ) : (
+                  <p className="text-red-500">Product no longer available</p>
+                )}
               </div>
             ))}
           </div>
@@ -126,7 +138,10 @@ const Cart = () => {
             <h3 className="text-lg font-bold mb-4">Summary</h3>
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span>Rs: {cartItems.reduce((sum, i) => sum + i.productId.price * i.quantity, 0).toFixed(2)}</span>
+              <span>Rs: {cartItems
+                .filter(i => i.productId)
+                .reduce((sum, i) => sum + i.productId.price * i.quantity, 0)
+                .toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span>Shipping</span>
@@ -135,10 +150,12 @@ const Cart = () => {
             <hr className="my-2"/>
             <div className="flex justify-between font-bold text-lg">
               <span>Total</span>
-              <span>Rs: {(cartItems.reduce((sum, i) => sum + i.productId.price * i.quantity, 0) + 10).toFixed(2)}</span>
+              <span>Rs: {(cartItems
+                .filter(i => i.productId)
+                .reduce((sum, i) => sum + i.productId.price * i.quantity, 0) + 10).toFixed(2)}</span>
             </div>
             <button onClick={handleCheckout} 
-            className="w-full py-3 rounded-lg bg-gradient-to-r from-green-300 to-green-600 text-white font-semibold shadow-md hover:from-green-600 hover:to-green-1000 hover:font-bold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2">
+              className="w-full py-3 rounded-lg bg-gradient-to-r from-green-300 to-green-600 text-white font-semibold shadow-md hover:from-green-600 hover:to-green-1000 hover:font-bold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2">
               {loading ? "Loading..." : "Checkout"}
             </button>
           </div>

@@ -44,6 +44,7 @@ const AddressForm = ({ existingAddress, onSuccess, autoSave = false }) => {
       onSuccess?.();
     } catch (error) {
       toast.error(error.response?.data?.message || "Error saving address");
+      console.log(error)
     } finally {
       setLoading(false);
     }

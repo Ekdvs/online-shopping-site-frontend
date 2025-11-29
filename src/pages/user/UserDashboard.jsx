@@ -15,12 +15,14 @@ import Loader from "../../components/Loader";
 import toast from "react-hot-toast"; // ✅ use hot-toast instead
 import Settings from "./Settings";
 import Cart from "./Cart";
-import { ShoppingCartIcon, StarIcon } from "lucide-react";
+import { MapPin, ShoppingCartIcon, StarIcon } from "lucide-react";
 import UserOrders from "./UserOrders";
 import UserReviews from "./Reviews";
 import PaymentHistory from "./PaymentHistory";
 import { ReceiptPercentIcon } from "@heroicons/react/24/solid";
 import Notifications from "./Notifications";
+import AddressForm from "../Product/AddressForm";
+import UserAddress from "../Product/UserAddress";
 
 const UserDashboard = () => {
   const [user, setUser] = useState(null);
@@ -165,6 +167,16 @@ const UserDashboard = () => {
           </li>
           <li
             className={`flex items-center gap-2 cursor-pointer ${
+              activeSection === "adress"
+                ? "text-blue-600 font-semibold"
+                : "text-gray-700"
+            }`}
+            onClick={() => setActiveSection("adress")}
+          >
+            <MapPin /> Address
+          </li>
+          <li
+            className={`flex items-center gap-2 cursor-pointer ${
               activeSection === "settings"
                 ? "text-blue-600 font-semibold"
                 : "text-gray-700"
@@ -192,6 +204,7 @@ const UserDashboard = () => {
   {activeSection === "cart" && <Cart token={token} currentUser={user} />}
   {activeSection === "rating" && <UserReviews token={token} currentUser={user} />}
   {activeSection === "payments" && <PaymentHistory token={token} />}
+  {activeSection === "adress" && <UserAddress token={token} />}
 </main>
 
     </div>
