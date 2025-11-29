@@ -53,9 +53,27 @@ const Login = () => {
     }
   };
 
-  return (
-    <div className="flex justify-center items-center min-h-screen bg-blue-50">
-      <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
+  return (  
+    <div className="w-full h-screen bg-[url('/bglogin.jpg')] bg-cover bg-center flex items-center justify-center ">
+      
+      {/* Left Section */}
+      <div className="hidden lg:flex w-[50%] h-full flex-col items-center justify-center gap-10 bg-black/20 p-10">
+        <img src="/ShopEase.png" alt="logo" className="w-[80px] h-[80px] opacity-90 drop-shadow-xl" />
+        <h1 className="text-5xl font-bold text-[#FFD700]">Create Your Account</h1>
+        <p className="text-gray-200 text-lg w-[400px] text-center italic">
+          Join us and start your journey into smart Shoping!
+        </p>
+        <Link to="/login">
+          <button className="px-8 py-3 bg-[#FFD700] text- font-semibold rounded-lg shadow-lg hover:bg-yellow-400 transition">
+            Already have an account?
+          </button>
+        </Link>
+      </div>
+
+      {/* Right Section */}
+      <div className="w-full lg:w-[50%] h-full bg-black/20 flex items-center justify-center">
+        <div className="w-[90%] max-w-[450px] backdrop-blur-md rounded-2xl shadow-2xl flex flex-col items-center gap-8 p-8">
+          <div className="">
         <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">
           Login
         </h2>
@@ -99,7 +117,7 @@ const Login = () => {
             className="text-right text-sm text-blue-600 hover:underline cursor-pointer"
             onClick={() => navigate("/forgot-password")}
           >
-            Forgot Passwo22222222222222rd?
+            Forgot Password?
           </div>
 
           {/* Submit */}
@@ -112,14 +130,20 @@ const Login = () => {
           </button>
         </form>
 
-        <p className="mt-4 text-center text-gray-600">
+        <p className="mt-4 text-center text-white">
           Don't have an account?{" "}
           <Link to="/register" className="text-blue-500 hover:underline">
             Register
           </Link>
         </p>
       </div>
+      </div>
+      </div>
     </div>
+
+
+
+    
   );
 };
 
