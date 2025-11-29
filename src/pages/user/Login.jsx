@@ -99,7 +99,7 @@ const Login = () => {
             className="text-right text-sm text-blue-600 hover:underline cursor-pointer"
             onClick={() => navigate("/forgot-password")}
           >
-            Forgot Password?
+            Forgot Password2222222222222?
           </div>
 
           {/* Submit */}
