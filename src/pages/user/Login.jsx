@@ -41,7 +41,12 @@ const Login = () => {
         localStorage.setItem("token", data.data.accessToken);
         toast.success(data.message || "Login successful!");
 
-        
+        // Redirect user to previous page or dashboard
+        if (data.data.updateUser.role === "ADMIN") {
+          navigate("/admin", { replace: true });
+        } else {
+          navigate(redirectPath, { replace: true });
+        }
       } else {
         toast.error(data.message || "Login failed");
       }
