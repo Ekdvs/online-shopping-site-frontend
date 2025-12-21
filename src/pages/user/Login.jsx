@@ -146,7 +146,7 @@ const Login = () => {
 {/*googleLogin()*/}
             <button
               type="button"
-              onClick={() => alert('devoloping this part') } 
+              onClick={() => alert('devoloping this part now') } 
               className="flex items-center justify-center gap-3 w-full py-3 bg-white text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-100"
             >
               <FcGoogle size={22} /> Continue with Google
