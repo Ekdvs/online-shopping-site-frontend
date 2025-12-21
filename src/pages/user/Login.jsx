@@ -6,6 +6,7 @@ import Axios from "../../utils/Axios";
 import SummaryApi from "../../common/SummaryApi";
 import Loader from "../../components/Loader";
 import { FcGoogle } from "react-icons/fc";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,6 +20,47 @@ const Login = () => {
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+  // FIXED Google Login
+  const googleLogin = useGoogleLogin(
+    {
+      flow:'implicit',
+      onSuccess:async(response)=>{
+        try {
+          const backendRes = await Axios({
+            method:SummaryApi.googleLogin.method,
+            url:SummaryApi.googleLogin.url,
+            access_token:response.access_token,
+            withCredentials:true
+
+          })
+
+          if(backendRes.data.success){
+            const newToken = backendRes.data.data.accessToken;
+
+            //save token local storage
+            localStorage.setItem("token",newToken)
+
+            toast.success('Google Login Successful! ')
+
+            //redirect user
+            const role = backendRes.data.data.updateUser.role;
+
+            if(role === 'ADMIN'){
+              navigate('/admin')
+            }else{
+              navigate('/dashboard')
+            }
+
+          }
+          
+        } catch (error) {
+            toast.error("Google login failed!");
+        }
+      },
+      onError: () => toast.error("Google login failed!"),
+    }
+  )
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -143,10 +185,10 @@ const Login = () => {
             </div>
 
             {/* Google Login */}
-{/*googleLogin()*/}
+
             <button
               type="button"
-              onClick={() => alert('devoloping this part now') } 
+              onClick={() => googleLogin() } 
               className="flex items-center justify-center gap-3 w-full py-3 bg-white text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-100"
             >
               <FcGoogle size={22} /> Continue with Google
