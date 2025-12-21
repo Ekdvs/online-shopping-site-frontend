@@ -5,6 +5,7 @@ import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import Axios from "../../utils/Axios";
 import SummaryApi from "../../common/SummaryApi";
 import Loader from "../../components/Loader";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -59,15 +60,33 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-blue-50">
-      <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
+    <div className="w-full h-screen bg-[url('/login.jpg')] bg-cover bg-center flex items-center justify-center">
+    {/* left section */}
+    <div className=" hidden lg:flex w-[50%] h-full flex-col items-center justify-center gap-10 bg-black/50 p-10">
+    <img src="/ShopEase.png"alt="logo" className="w-[180px] h-[180px] object-contain opacity-90 drop-shadow-lg" />
+    <h1 className="text-5xl font-bold text-[#FFD700] text-center drop-shadow-lg">
+          Your Gateway to Smarter Shopping
+        </h1>
+        <p className="text-gray-200 text-lg w-[400px] text-center italic">
+          Join ShopEase and experience next-generation technology at your fingertips.
+        </p>
+        <Link to="/register">
+          <button className=" mt-2.5 px-8 py-3 bg-[#FFD700] text-black font-semibold rounded-lg shadow-lg hover:bg-yellow-400 transition duration-300">
+            Get Started
+          </button>
+        </Link>
+    </div>
+    {/* right section */}
+    <div className="w-full lg:w-[50%] h-full bg-black/50 flex items-center justify-center">
+      
+      <div className="w-[90%] max-w-[450px] backdrop-blur-md rounded-2xl shadow-2xl flex flex-col items-center justify-center gap-8 p-8">
         <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">
           Login
         </h2>
 
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           {/* Email */}
-          <div className="flex items-center gap-2 border rounded p-2 focus-within:ring-2 focus-within:ring-blue-500">
+          <div className="flex items-center gap-2 border rounded p-2 focus-within:ring-2 focus-within:ring-blue-500 text-white placeholder-gray-400">
             <FaEnvelope className="text-gray-400" />
             <input
               type="email"
@@ -80,7 +99,7 @@ const Login = () => {
           </div>
 
           {/* Password */}
-          <div className="flex items-center gap-2 border rounded p-2 focus-within:ring-2 focus-within:ring-blue-500">
+          <div className="flex items-center gap-2 border rounded p-2 focus-within:ring-2 focus-within:ring-blue-500 text-white placeholder-gray-400">
             <FaLock className="text-gray-400" />
             <input
               type={showPassword ? "text" : "password"}
@@ -93,7 +112,7 @@ const Login = () => {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="text-gray-400 hover:text-gray-700"
+              className="text-gray-800 hover:text-gray-700"
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
@@ -115,6 +134,24 @@ const Login = () => {
           >
             {loading ? "Logging in..." : "Login"}
           </button>
+
+          {/* Divider */}
+            <div className="flex items-center w-[80%] gap-2 mt-4">
+              <div className="flex-1 h-[1px] bg-gray-600"></div>
+              <p className="text-gray-400 text-sm">or</p>
+              <div className="flex-1 h-[1px] bg-gray-600"></div>
+            </div>
+
+            {/* Google Login */}
+{/*googleLogin()*/}
+            <button
+              type="button"
+              onClick={() => alert('devoloping this part') } 
+              className="flex items-center justify-center gap-3 w-full py-3 bg-white text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-100"
+            >
+              <FcGoogle size={22} /> Continue with Google
+            </button>
+
         </form>
 
         <p className="mt-4 text-center text-gray-600">
@@ -124,6 +161,8 @@ const Login = () => {
           </Link>
         </p>
       </div>
+    
+    </div>
     </div>
   );
 };
