@@ -30,31 +30,42 @@ const Login = () => {
           const backendRes = await Axios({
             method:SummaryApi.googleLogin.method,
             url:SummaryApi.googleLogin.url,
-            access_token:response.access_token,
+            data: {
+              access_token: response.access_token, 
+            },
+            headers: {
+              "Content-Type": "application/json",
+            },
             withCredentials:true
 
           })
 
           if(backendRes.data.success){
             const newToken = backendRes.data.data.accessToken;
+            
 
             //save token local storage
             localStorage.setItem("token",newToken)
+            Axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
 
             toast.success('Google Login Successful! ')
 
             //redirect user
             const role = backendRes.data.data.updateUser.role;
-
+            
             if(role === 'ADMIN'){
               navigate('/admin')
-            }else{
+            }
+            else if(role === 'USER'){
               navigate('/dashboard')
+            }else{
+              navigate('/')
             }
 
           }
           
         } catch (error) {
+            console.log(error);
             toast.error("Google login failed!");
         }
       },
@@ -81,6 +92,7 @@ const Login = () => {
       });
 
       if (data.success) {
+        
         localStorage.setItem("token", data.data.accessToken);
         toast.success(data.message || "Login successful!");
 
@@ -178,10 +190,10 @@ const Login = () => {
           </button>
 
           {/* Divider */}
-            <div className="flex items-center w-[80%] gap-2 mt-4">
-              <div className="flex-1 h-[1px] bg-gray-600"></div>
+            <div className="flex items-center w-full gap-2 mt-4">
+              <div className="flex-1 h-[1px] bg-gray-400"></div>
               <p className="text-gray-400 text-sm">or</p>
-              <div className="flex-1 h-[1px] bg-gray-600"></div>
+              <div className="flex-1 h-[1px] bg-gray-400"></div>
             </div>
 
             {/* Google Login */}
