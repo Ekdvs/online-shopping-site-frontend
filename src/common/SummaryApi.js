@@ -45,6 +45,10 @@ const SummaryApi={
         url:"/api/user/logout",
         method: "POST"
     },
+    googleLogin: {
+    url: "/api/user/google-login",
+    method: "POST",
+  },
 
     //products
     getProducts:{
